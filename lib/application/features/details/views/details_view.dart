@@ -16,18 +16,6 @@ class _Details extends StatelessWidget {
               icon: Icons.arrow_back,
               onTap: context.pop,
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 7.5, 0),
-              child: Button(
-                icon: Icons.favorite_border,
-                onTap: () {},
-              ),
-            ),
-            Button(
-              icon: Icons.share,
-              onTap: () {},
-            ),
           ],
         ),
       ),
