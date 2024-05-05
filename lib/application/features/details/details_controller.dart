@@ -14,9 +14,11 @@ class _Notifier extends InheritedNotifier<_Controller> {
 class _Controller extends ChangeNotifier implements IController {
   final AudioPlayer player;
   final String title;
+  
 
   late Game game;
   late States state;
+  late ValueNotifier<bool> isDownloading;
 
   /// The [_Controller] constructor. After create a instance make sure to [initialize] it.
   ///
@@ -32,6 +34,7 @@ class _Controller extends ChangeNotifier implements IController {
   @override
   Future<void> initialize() async {
     state = States.loading;
+    isDownloading = ValueNotifier(false);
     try {
       game = Repository.collection.firstWhere((element) => element.title == title);
       _playSoundtrack();
@@ -57,7 +60,8 @@ class _Controller extends ChangeNotifier implements IController {
 
   /// Install the .JAR file into the J2ME Loader emulator.
   /// If the emulator is not installed then redirect to it's page on the PlayStore or GitHub.
-  Future<void> install(BuildContext context) async {
+  Future<void> install() async {
+    isDownloading.value = true;
     try {
       // First check if the game has a recommended version to install, if not throws an exception.
       final JAR jar = game.jars.firstWhere((element) => element.isRecomended == true,
@@ -71,17 +75,12 @@ class _Controller extends ChangeNotifier implements IController {
 
       final File file = await Android.write(response.bodyBytes, jar.file);
 
-      // For last call a native Android channel to install the .JAR file into J2ME Loader emulator.
+      // At last call a native Android channel to install the .JAR file into J2ME Loader emulator.
       const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
       await channel.invokeMethod('openJarFile', file.path);
     }
-    catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-          '$error',
-          style: Typographies.body(Palette.elements).style,
-        ),
-      ));
+    finally {
+      isDownloading.value = false;
     }
   }
 
