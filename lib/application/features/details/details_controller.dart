@@ -55,6 +55,38 @@ class _Controller extends ChangeNotifier implements IController {
     return null;
   }
 
+  /// Install the .JAR file into the J2ME Loader emulator.
+  /// If the emulator is not installed opens it's page on the Play Store or GitHub repository.
+  Future<void> install(BuildContext context) async {
+    try {
+      // First check if the game has a recommended version to install, if not throws an exception.
+      final JAR jar = game.jars.firstWhere((element) => element.isRecomended == true,
+        orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
+      );
+
+      // If there is a recommended version, then download the file.
+      final Response response = await GitHub.getJAR('$title/${jar.file}');
+      if (response.statusCode == 401) throw "Sorry, the server runned out the requests, please try again later.";
+      if (response.statusCode == 404) throw "Sorry, the $title file was not found!";
+
+      final Directory directory = await getApplicationCacheDirectory();
+      final File file = File('${directory.path}/temporary.jar');
+      await file.writeAsBytes(response.bodyBytes);
+
+      // For last call a native Android channel to install the .JAR file into J2ME Loader emulator.
+      const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
+      await channel.invokeMethod('openJarFile', '${directory.path}/temporary.jar');
+    }
+    catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          '$error',
+          style: Typographies.body(Palette.elements).style,
+        ),
+      ));
+    }
+  }
+
   /// Play the audio using the game's [title] as a key. If the audio isn't found, tries to [_fetchSoundtrack] from source. \
   /// The audio file is of type .RTX.
   Future<void> _playSoundtrack() async {

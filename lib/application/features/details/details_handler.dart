@@ -1,9 +1,13 @@
 import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
+import 'package:j2me_installer/application/core/entities/jar_entity.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../core/contracts/controller_contract.dart';
 
@@ -24,6 +28,7 @@ import '../../utilities/tags_component.dart';
 
 part '../details/components/cover_component.dart';
 part '../details/components/divider_component.dart';
+part '../details/components/play_button_component.dart';
 
 part '../details/views/details_view.dart';
 

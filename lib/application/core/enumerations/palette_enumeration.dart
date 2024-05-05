@@ -10,7 +10,8 @@ enum Palette {
   elements(Color(0xffe4e5e9)),
   foreground(Color(0xff26262e)),
   grey(Color(0xFFBDBDBD)),
-  primary(Color(0xff50599e));
+  primary(Color(0xff50599e)),
+  transparent(Color(0x00000000));
 
   final Color color;
 

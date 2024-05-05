@@ -1,9 +1,9 @@
 part of '../details_handler.dart';
 
 class _Details extends StatelessWidget {
-  final Game object;
+  final Game game;
 
-  const _Details(this.object);
+  const _Details(this.game);
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +11,7 @@ class _Details extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisSize: MainAxisSize.max,
           children: <Widget> [
             Button(
               icon: Icons.arrow_back,
@@ -27,7 +28,7 @@ class _Details extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 0, 10),
             child: Text(
-            object.title.toUpperCase(),
+            game.title.toUpperCase(),
               style: Typographies.header(Palette.elements).style,
               maxLines: 1,
               overflow: TextOverflow.clip,
@@ -36,20 +37,28 @@ class _Details extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Text(
-              "${object.release} • ${object.vendor}",
+              "${game.release} • ${game.vendor}",
               style: Typographies.body(Palette.grey).style,
               textAlign: TextAlign.left,
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-            child: Tags(object.tags),
+            child: Tags(game.tags),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
             child: Text(
-              object.description ?? '',
+              game.description ?? '',
               style: Typographies.body(Palette.grey).style,
+            ),
+          ),
+          const _Divider(),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: _PlayButton(),
             ),
           ),
         ],

@@ -37,4 +37,19 @@ class GitHub {
     Logger.error.log('The file "$source" could not be downloaded!');
     throw Exception('GitHub returned ${response.statusCode} while searching for the "$source" file.');
   }
+
+  static Future<http.Response> getJAR(String source) async {
+    final http.Response response = await GitHub.fetch('JARs/$source');
+    return response;
+  }
+
+  static Future<http.Response> getPNG(String source) async {
+    final http.Response response = await GitHub.fetch('PNGs/$source');
+    return response;
+  }
+
+  static Future<http.Response> getRTX(String source) async {
+    final http.Response response = await GitHub.fetch('RTXs/$source');
+    return response;
+  }
 }
