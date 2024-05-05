@@ -22,6 +22,7 @@ class _Controller extends ChangeNotifier implements IController {
   Future<void> initialize() async {
     state = States.loading;
     try {
+      await Android.initialize();
       await Cache.initialize();
       await Repository.fetch();
       games = Repository.collection;

@@ -56,7 +56,7 @@ class _Controller extends ChangeNotifier implements IController {
   }
 
   /// Install the .JAR file into the J2ME Loader emulator.
-  /// If the emulator is not installed opens it's page on the Play Store or GitHub repository.
+  /// If the emulator is not installed then redirect to it's page on the PlayStore or GitHub.
   Future<void> install(BuildContext context) async {
     try {
       // First check if the game has a recommended version to install, if not throws an exception.
@@ -69,13 +69,11 @@ class _Controller extends ChangeNotifier implements IController {
       if (response.statusCode == 401) throw "Sorry, the server runned out the requests, please try again later.";
       if (response.statusCode == 404) throw "Sorry, the $title file was not found!";
 
-      final Directory directory = await getApplicationCacheDirectory();
-      final File file = File('${directory.path}/temporary.jar');
-      await file.writeAsBytes(response.bodyBytes);
+      final File file = await Android.write(response.bodyBytes, jar.file);
 
       // For last call a native Android channel to install the .JAR file into J2ME Loader emulator.
       const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
-      await channel.invokeMethod('openJarFile', '${directory.path}/temporary.jar');
+      await channel.invokeMethod('openJarFile', file.path);
     }
     catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
