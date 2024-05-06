@@ -22,8 +22,20 @@ class _ApplicationState extends State<Application> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    // Sets the application to show the device navigation bar only.
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: <SystemUiOverlay> [SystemUiOverlay.bottom],
+    );
+
+    // Set the orientation mode to freeze at portrait mode only.
     SystemChrome.setPreferredOrientations(<DeviceOrientation> [DeviceOrientation.portraitUp]);
+
+    // Set the navigation bar color.
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Palette.background.color,
+    ));
+
     return MaterialApp.router(
       // Freeze the text scaler regardless of the device's font size.
       builder: (BuildContext context, Widget? child) {

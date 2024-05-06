@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:http/http.dart' as http;
 
 import '../enumerations/logger_enumeration.dart';
@@ -25,17 +23,9 @@ class GitHub {
       Uri.parse('$repository$source'),
       headers: headers,
     );
+    if (response.statusCode == 200) Logger.success.log('GitHub | ${response.statusCode}: $source');
+    if (response.statusCode != 200) Logger.error.log('GitHub | ${response.statusCode}: $source');
     return response;
-  }
-
-  static Future<Uint8List> getFile(String source) async {
-    final http.Response response = await GitHub.fetch(source);
-    if (response.statusCode == 200) {
-      Logger.success.log('The file "$source" has been successfully downloaded!');
-      return response.bodyBytes;
-    }
-    Logger.error.log('The file "$source" could not be downloaded!');
-    throw Exception('GitHub returned ${response.statusCode} while searching for the "$source" file.');
   }
 
   static Future<http.Response> getJAR(String source) async {

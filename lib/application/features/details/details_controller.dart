@@ -15,10 +15,9 @@ class _Controller extends ChangeNotifier implements IController {
   final AudioPlayer player;
   final String title;
   
-
-  late Game game;
+  late final Game game;
   late States state;
-  late ValueNotifier<bool> isDownloading;
+  late final ValueNotifier<bool> isDownloading;
 
   /// The [_Controller] constructor. After create a instance make sure to [initialize] it.
   ///
@@ -49,13 +48,12 @@ class _Controller extends ChangeNotifier implements IController {
 
   /// Try to get the game's thumbnail from the cache repository by it's [title].
   /// Return the thumbnail bytes in [Uint8List] if exists or null if not.
-  Uint8List? getThumbnail() {
-    final String? thumbnail = Cache.thumbnails[title];
-    if (thumbnail != null) {
-      final Uint8List bytes = base64Decode(thumbnail);
-      return bytes;
+  Future<File> getThumbnail() async {
+    final File file = await Android.load('splash.png', title.replaceAll(':', ' -'));
+    if (file.existsSync()) {
+      return file;
     }
-    return null;
+    throw '';
   }
 
   /// Install the .JAR file into the J2ME Loader emulator.
@@ -69,11 +67,11 @@ class _Controller extends ChangeNotifier implements IController {
       );
 
       // If there is a recommended version, then download the file.
-      final Response response = await GitHub.getJAR('$title/${jar.file}');
+      final Response response = await GitHub.getJAR('${title.replaceAll(':', ' -')}/${jar.file}');
       if (response.statusCode == 401) throw "Sorry, the server runned out the requests, please try again later.";
       if (response.statusCode == 404) throw "Sorry, the $title file was not found!";
 
-      final File file = await Android.write(response.bodyBytes, jar.file);
+      final File file = await Android.writeTemporary(response.bodyBytes, jar.file);
 
       // At last call a native Android channel to install the .JAR file into J2ME Loader emulator.
       const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
@@ -87,18 +85,16 @@ class _Controller extends ChangeNotifier implements IController {
   /// Play the audio using the game's [title] as a key. If the audio isn't found, tries to [_fetchSoundtrack] from source. \
   /// The audio file is of type .RTX.
   Future<void> _playSoundtrack() async {
-    final String? soundtrack = Cache.soundtracks[game.title];
-    if (soundtrack != null) {
-      try {
-        final Uint8List bytes = base64Decode(soundtrack);
-        await player.play(BytesSource(bytes));
-      }
-      catch (_) {
-        Logger.error.log('Unable to play "${game.title}" audio!');
-      }
+    final File file = await Android.load('theme.rtx', title.replaceAll(':', ' -'));
+    final bool exists = await file.exists(); 
+
+    // If exists play the .RTX theme.
+    if (exists) {
+      await player.play(DeviceFileSource(file.path));
     }
+
+    // If the file is not found in cache, then tries to fetch from source.
     else {
-      Logger.warning.log('The "${game.title}" audio is not cached, trying to download it...');
       _fetchSoundtrack();
     }
   }
@@ -108,9 +104,14 @@ class _Controller extends ChangeNotifier implements IController {
   Future<void> _fetchSoundtrack() async {
     final String name = title.replaceAll(':', ' -');
     try {
-      final Uint8List bytes = await GitHub.getFile('RTXs/$name.rtx');
-      Cache.soundtracks.put(title, base64Encode(bytes));
-      await player.play(BytesSource(bytes));
+      // Fetch .RTX from source.
+      final Response response = await GitHub.getRTX('$name.rtx');
+      if (response.statusCode == 401) throw "Sorry, the server runned out the requests, please try again later.";
+      if (response.statusCode == 404) throw "Sorry, the $title theme audio was not found!";
+
+      // Write the file on the device, then play it.
+      final File file = await Android.write(response.bodyBytes, 'theme.rtx', name);
+      await player.play(DeviceFileSource(file.path));
     }
     catch (_) {}
   }

@@ -1,20 +1,19 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 
 import '../../core/contracts/controller_contract.dart';
 
 import '../../core/entities/game_entity.dart';
 
-import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/states_enumeration.dart';
 import '../../core/enumerations/typographies_enumeration.dart';
 
 import '../../core/repositories/android_repository.dart';
-import '../../core/repositories/cache_repository.dart';
 import '../../core/repositories/games_repository.dart';
 
 import '../../core/services/github_service.dart';

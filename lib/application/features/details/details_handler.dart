@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -19,14 +17,12 @@ import '../../core/enumerations/states_enumeration.dart';
 import '../../core/enumerations/typographies_enumeration.dart';
 
 import '../../core/repositories/android_repository.dart';
-import '../../core/repositories/cache_repository.dart';
 import '../../core/repositories/games_repository.dart';
 
 import '../../core/services/github_service.dart';
 
 import '../../utilities/button_component.dart';
 import '../../utilities/tags_component.dart';
-import '../../utilities/warning_component.dart';
 
 part '../details/components/cover_component.dart';
 part '../details/components/divider_component.dart';

@@ -7,29 +7,24 @@ class _Cover extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 0.75,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Palette.background.color,
-          image: _getCoverImage(context),
-        ),
+      child: FutureBuilder(
+        future: _Notifier.of(context)!.getThumbnail(),
+        builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+          if (snapshot.hasData) {
+            return Image.file(
+              snapshot.data!,
+              filterQuality: FilterQuality.none,
+              fit: BoxFit.contain,
+            );
+          }
+          else if (snapshot.hasError) {
+            return const Placeholder();
+          }
+          else {
+            return const CircularProgressIndicator();
+          }
+        },
       ),
     );
-  }
-
-  DecorationImage _getCoverImage(BuildContext context) {
-    final Uint8List? thumbnail = _Notifier.of(context)!.getThumbnail();
-    if (thumbnail == null) {
-      return const DecorationImage(
-        fit: BoxFit.cover,
-        image: AssetImage('assets/java-logo.png'),
-      );
-    }
-    else {
-      return DecorationImage(
-        fit: BoxFit.cover,
-        filterQuality: FilterQuality.none,
-        image: MemoryImage(thumbnail),
-      );
-    }
   }
 }

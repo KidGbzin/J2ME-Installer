@@ -23,7 +23,6 @@ class _Controller extends ChangeNotifier implements IController {
     state = States.loading;
     try {
       await Android.initialize();
-      await Cache.initialize();
       await Repository.fetch();
       games = Repository.collection;
       state = States.finished;
@@ -37,30 +36,35 @@ class _Controller extends ChangeNotifier implements IController {
   /// If the cache does not exist, then thies to [_fetchThumbnail] from source.
   /// 
   /// The parameter [title] is self-explanatory, just the game's title. It is of type [String].
-  ImageProvider loadThumbnail(String title) {
-    final String? base64Image = Cache.thumbnails[title];
-    if (base64Image == null) {
-      Logger.warning.log('The "$title" thumbnail is not cached, loading from network...');
-      _fetchThumbnail(title);
-      return NetworkImage(
-        'https://raw.githubusercontent.com/KidGbzin/J2ME/files/PNGs/${title.replaceAll(':', ' -')}.png',
-        headers: GitHub.headers,
-      );
+  Future<File> loadThumbnail(String title) async {
+    final File file = await Android.load('splash.png', title.replaceAll(':', ' -'));
+    final bool exists = await file.exists(); 
+
+    // If exists play the .RTX theme.
+    if (exists) {
+      return file;
     }
-    final Uint8List bytes = base64.decode(base64Image);
-    return MemoryImage(bytes);
+
+    // If the file is not found in cache, then tries to fetch from source.
+    else {
+      return _fetchThumbnail(title);
+    }
   }
 
   /// Fetch the .PNG file from source then stores in the cache system.
   /// When the file is successfully cached also [notifyListeners].
   /// 
   /// The parameter [title] is self-explanatory, just the game's title. It is of type [String].
-  Future<void> _fetchThumbnail(String title) async {
+  Future<File> _fetchThumbnail(String title) async {
     final String name = title.replaceAll(':', ' -');
+    late final File file;
     try {
-      final Uint8List thumbnail = await GitHub.getFile('PNGs/$name.png');
-      Cache.thumbnails.put(title, base64Encode(thumbnail));
+      final Response response = await GitHub.getPNG('$name.png');
+      file = await Android.write(response.bodyBytes, 'splash.png', name);
+      return file;
     }
-    catch (_) {}
+    catch (_) {
+      return file;
+    }
   }
 }

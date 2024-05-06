@@ -8,7 +8,7 @@ class Warning extends SnackBar {
 
   Warning(this.body, {super.key}) : super(content: Container(
     height: 41,
-    margin: const EdgeInsets.all(15),
+    padding: EdgeInsets.zero,
     width: double.infinity,
     child: Text(
       body,
