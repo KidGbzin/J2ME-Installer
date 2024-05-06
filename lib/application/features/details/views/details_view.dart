@@ -1,9 +1,36 @@
 part of '../details_handler.dart';
 
-class _Details extends StatelessWidget {
+class _Details extends StatefulWidget {
   final Game game;
 
   const _Details(this.game);
+
+  @override
+  State<_Details> createState() => __DetailsState();
+}
+
+class __DetailsState extends State<_Details> with WidgetsBindingObserver {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // If the application is not in the main view, then stops the music player.
+    if (state != AppLifecycleState.resumed) {
+      _Notifier.of(context)!.player.stop();
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +55,7 @@ class _Details extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 0, 10),
             child: Text(
-            game.title.toUpperCase(),
+            widget.game.title.toUpperCase(),
               style: Typographies.header(Palette.elements).style,
               maxLines: 1,
               overflow: TextOverflow.clip,
@@ -37,19 +64,19 @@ class _Details extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Text(
-              "${game.release} • ${game.vendor}",
+              "${widget.game.release} • ${widget.game.vendor}",
               style: Typographies.body(Palette.grey).style,
               textAlign: TextAlign.left,
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-            child: Tags(game.tags),
+            child: Tags(widget.game.tags),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
             child: Text(
-              game.description ?? '',
+              widget.game.description ?? '',
               style: Typographies.body(Palette.grey).style,
             ),
           ),
