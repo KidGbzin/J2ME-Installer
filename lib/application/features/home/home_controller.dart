@@ -14,12 +14,14 @@ class _Notifier extends InheritedNotifier<_Controller> {
 class _Controller extends ChangeNotifier implements IController {
   late final List<Game> games;
   late States state;
+  late ValueNotifier<bool> isListView;
 
   /// The [_Controller] constructor. After create a instance make sure to [initialize] it.
   _Controller();
 
   @override
   Future<void> initialize() async {
+    isListView = ValueNotifier(true);
     state = States.loading;
     try {
       await Android.initialize();
@@ -29,6 +31,15 @@ class _Controller extends ChangeNotifier implements IController {
     }
     catch (error) {
       state = States.error;
+    }
+  }
+
+  void changeView() {
+    if (isListView.value) {
+      isListView.value = false;
+    }
+    else {
+      isListView.value = true;
     }
   }
 

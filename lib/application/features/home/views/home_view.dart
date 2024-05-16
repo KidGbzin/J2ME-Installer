@@ -9,16 +9,40 @@ class _Home extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget> [
-            ImageIcon(
-              const AssetImage('assets/java.png'),
-              color: Palette.elements.color,
-            )
+            ValueListenableBuilder(
+              valueListenable: _Notifier.of(context)!.isListView,
+              builder: (BuildContext context, bool isListView, Widget? _) {
+                if (isListView) {
+                  return Button(
+                    icon: Icons.list_rounded,
+                    onTap: () => _Notifier.of(context)!.changeView(),
+                  );
+                }
+                else {
+                  return Button(
+                    icon: Icons.grid_3x3_rounded,
+                    onTap: () => _Notifier.of(context)!.changeView(),
+                  );
+                }
+              }
+            ),
           ],
         ),
       ),
-      body: _ListView(_Notifier.of(context)!.games),
+      body: ValueListenableBuilder(
+        valueListenable: _Notifier.of(context)!.isListView,
+        builder: (BuildContext context, bool isListView, Widget? _) {
+          if (isListView) {
+            return _ListView(_Notifier.of(context)!.games);
+          }
+          else {
+            return _GridView(_Notifier.of(context)!.games);
+          }
+        }
+      ),
     );
   }
 }

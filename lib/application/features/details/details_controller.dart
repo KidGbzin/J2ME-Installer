@@ -62,7 +62,7 @@ class _Controller extends ChangeNotifier implements IController {
     isDownloading.value = true;
     try {
       // First check if the game has a recommended version to install, if not throws an exception.
-      final JAR jar = game.jars.firstWhere((element) => element.isRecomended == true,
+      final JAR jar = game.jars.firstWhere((element) => element.isComplete == true,
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
 

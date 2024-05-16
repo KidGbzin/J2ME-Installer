@@ -19,8 +19,6 @@ class _ListView extends StatelessWidget {
         );
       },
       itemCount: collection.length,
-      padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-      physics: const BouncingScrollPhysics(),
       separatorBuilder: (BuildContext context, int index) {
         return Divider(
           color: Palette.divider.color,

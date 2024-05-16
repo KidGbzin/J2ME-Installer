@@ -17,10 +17,14 @@ import '../../core/repositories/android_repository.dart';
 import '../../core/repositories/games_repository.dart';
 
 import '../../core/services/github_service.dart';
+
+import '../../utilities/button_component.dart';
 import '../../utilities/tags_component.dart';
 
-part '../home/components/list_component.dart';
-part '../home/components/tile_component.dart';
+part '../home/components/cover_component.dart';
+part '../home/components/grid_view_component.dart';
+part '../home/components/list_view_component.dart';
+part '../home/components/list_tile_component.dart';
 
 part '../home/views/error_view.dart';
 part '../home/views/home_view.dart';

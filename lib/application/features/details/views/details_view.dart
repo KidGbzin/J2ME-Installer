@@ -10,6 +10,7 @@ class _Details extends StatefulWidget {
 }
 
 class __DetailsState extends State<_Details> with WidgetsBindingObserver {
+  late ScaffoldMessengerState snackbar;
 
   @override
   void initState() {
@@ -19,16 +20,28 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    // If the application returns to resume state, then resume de music player.
+    if (state == AppLifecycleState.resumed) {
+      _Notifier.of(context)!.player.resume();
+    }
+
     // If the application is not in the main view, then stops the music player.
-    if (state != AppLifecycleState.resumed) {
-      _Notifier.of(context)!.player.stop();
+    else {
+      _Notifier.of(context)!.player.pause();
     }
     super.didChangeAppLifecycleState(state);
   }
 
   @override
+  void didChangeDependencies() {
+    snackbar = ScaffoldMessenger.of(context);
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    snackbar.clearSnackBars();
     super.dispose();
   }
 

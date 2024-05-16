@@ -13,22 +13,10 @@ class _Tile extends StatelessWidget {
       width: double.infinity,
       child: Row(
         children: <Widget> [
-          FutureBuilder(
-            builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-              if (snapshot.hasData) {
-                return _cover(snapshot.data!);
-              }
-              else if (snapshot.hasError) {
-                return const Placeholder();
-              }
-              else {
-                return const SizedBox(
-                  height: 120,
-                  width: 120 * 0.75,
-                );
-              }
-            },
-            future: _Notifier.of(context)!.loadThumbnail(game.title),
+          SizedBox(
+            height: 120,
+            width: 120 * 0.75,
+            child: _Cover(game.title),
           ),
           Expanded(
             child: Column(
@@ -58,22 +46,6 @@ class _Tile extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _cover(File file) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7.5),
-        color: Palette.foreground.color,
-        image: DecorationImage(
-          fit: BoxFit.contain,
-          filterQuality: FilterQuality.none,
-          image: FileImage(file),
-        ),
-      ),
-      height: 120,
-      width: 120 * 0.75,
     );
   }
 }
