@@ -1,20 +1,7 @@
 import '../entities/jar_entity.dart';
 
 /// The entity resposible for the game information.
-/// 
-/// The parameter [description] is a brief piece of information about the game. It is of type [String]. \
-/// The parameter [jars] is a list of all .JARs available for download. It is a [List] of type [JAR]. \
-/// The parameter [release] is the year when the game was released. It is of type [int]. \
-/// The parameter [tags] is a list of game caracteristcs. It is a [List] of type [String]. \
-/// The parameter [title] is self-explanatory, just the game's title. It is of type [String]. \
-/// The parameter [vendor] is the name of the company that released the game. It is of the type [String].
 class Game {
-  final String? description;
-  final List<JAR> jars;
-  final int release;
-  final List<String> tags;
-  final String title;
-  final String vendor;
 
   Game({
     required this.description,
@@ -24,6 +11,24 @@ class Game {
     required this.title,
     required this.vendor,
   });
+
+  /// A brief piece of information about the game.
+  final String? description;
+
+  /// A list of all [JAR] files available for this game.
+  final List<JAR> jars;
+
+  /// The year the year when the game was released.
+  final int release;
+
+  /// A list of game caracteristcs such as Action, Shooter, Sports...
+  final List<String> tags;
+
+  /// Self-explanatory, just the game's title.
+  final String title;
+
+  /// Is the name of the company that released the game.
+  final String vendor;
 
   /// Convert a JSON into a [Game] object.
   /// 

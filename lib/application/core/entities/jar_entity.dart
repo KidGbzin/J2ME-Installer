@@ -1,22 +1,5 @@
 /// The entity responsible for the .JAR file information.
-/// 
-/// The parameter [file] is the name of the .JAR file. It's of type [String]. \
-/// The parameter [isComplete] tells if the .JAR is the primary version to play, usually a K800i version. It's of the type [String]. \
-/// The parameter [isTouchscreen] tells if the .JAR has a touchscreen support. It's of the type [bool]. \
-/// The parameter [languages] is all of the .JAR supported languages. It's a [List] of the type [String]. \
-/// The parameter [resolution] it's the resolution of the .JAR in pixels. It's of the type [bool]. \
-/// The parameter [size] is the file size in bytes. It's of the tpoe [int]. \
-/// The parameter [title] is self-explanatory, just the game's title. It is of type [String]. \
-/// The parameter [version] is the .JAR release version. It is of type [String].
 class JAR {
-  final String file;
-  final bool isComplete;
-  final bool isTouchscreen;
-  final List<String> languages;
-  final String resolution;
-  final int size;
-  final String title;
-  final String version;
 
   JAR({
     required this.file,
@@ -28,6 +11,33 @@ class JAR {
     required this.title,
     required this.version,
   });
+
+  /// Is the name of the [JAR] file with the extension .JAR.
+  final String file;
+
+  /// In J2ME a single game can have various versions depending on the device.
+  /// This version can totally change the game, some have some cut levels or changes between 3D to 2D.
+  /// So this boolean says this [JAR] is a full version of the game, usually a Sony Ericsson device.
+  /// Only one file per game is a complete [JAR].
+  final bool isComplete;
+
+  /// A boolean to show if the [JAR] supports touchscreen input.
+  final bool isTouchscreen;
+
+  /// A list of all languages codes supported from the [JAR] file.
+  final List<String> languages;
+
+  /// It's the resolution of the game in pixels.
+  final String resolution;
+
+  /// The package size in bytes.
+  final int size;
+
+  /// Self-explanatory, just the game's title.
+  final String title;
+
+  /// The [JAR] release version.
+  final String version;
 
   /// Convert a JSON into a [JAR] object.
   /// 
