@@ -11,7 +11,7 @@ class _Notifier extends InheritedNotifier<_Controller> {
 }
 
 /// The [Home] controller, used to manipulate states and operations.
-class _Controller extends ChangeNotifier implements IController {
+class _Controller extends ChangeNotifier {
   late final List<Game> games;
   late States state;
   late ValueNotifier<bool> isListView;
@@ -19,7 +19,6 @@ class _Controller extends ChangeNotifier implements IController {
   /// The [_Controller] constructor. After create a instance make sure to [initialize] it.
   _Controller();
 
-  @override
   Future<void> initialize() async {
     isListView = ValueNotifier(true);
     state = States.loading;

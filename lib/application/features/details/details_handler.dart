@@ -6,8 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 
-import '../../core/contracts/controller_contract.dart';
-
 import '../../core/entities/game_entity.dart';
 import '../../core/entities/jar_entity.dart';
 
@@ -21,8 +19,8 @@ import '../../core/repositories/games_repository.dart';
 
 import '../../core/services/github_service.dart';
 
-import '../../utilities/button_component.dart';
-import '../../utilities/tags_component.dart';
+import '../../utilities/button_widget.dart';
+import '../../utilities/tags_widget.dart';
 
 part '../details/components/cover_component.dart';
 part '../details/components/divider_component.dart';

@@ -11,7 +11,7 @@ class _Notifier extends InheritedNotifier<_Controller> {
 }
 
 /// The [Details] controller, used to manipulate states and operations.
-class _Controller extends ChangeNotifier implements IController {
+class _Controller extends ChangeNotifier {
   final AudioPlayer player;
   final String title;
   
@@ -30,7 +30,6 @@ class _Controller extends ChangeNotifier implements IController {
 
   /// Initialize the [_Controller] by feching the game's data from [Repository] repository using it's title as key. \
   /// Update the [state] based on whether the game was found [States.finished] or not [States.error].
-  @override
   Future<void> initialize() async {
     state = States.loading;
     isDownloading = ValueNotifier(false);
