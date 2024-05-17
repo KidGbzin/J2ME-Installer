@@ -47,7 +47,7 @@ class _Controller extends ChangeNotifier {
   /// 
   /// The parameter [title] is self-explanatory, just the game's title. It is of type [String].
   Future<File> loadThumbnail(String title) async {
-    final File file = await Android.load('splash.png', title.replaceAll(':', ' -'));
+    final File file = await Android.read('$title.png');
     final bool exists = await file.exists(); 
 
     // If exists play the .RTX theme.
@@ -66,11 +66,10 @@ class _Controller extends ChangeNotifier {
   /// 
   /// The parameter [title] is self-explanatory, just the game's title. It is of type [String].
   Future<File> _fetchThumbnail(String title) async {
-    final String name = title.replaceAll(':', ' -');
     late final File file;
     try {
-      final Response response = await GitHub.getPNG('$name.png');
-      file = await Android.write(response.bodyBytes, 'splash.png', name);
+      final Response response = await GitHub.get('$title.png');
+      file = await Android.write(response.bodyBytes, '$title.png');
       return file;
     }
     catch (_) {

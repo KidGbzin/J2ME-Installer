@@ -48,7 +48,7 @@ class _Controller extends ChangeNotifier {
   /// Try to get the game's thumbnail from the cache repository by it's [title].
   /// Return the thumbnail bytes in [Uint8List] if exists or null if not.
   Future<File> getThumbnail() async {
-    final File file = await Android.load('splash.png', title.replaceAll(':', ' -'));
+    final File file = await Android.read('$title.png');
     if (file.existsSync()) {
       return file;
     }
@@ -66,11 +66,9 @@ class _Controller extends ChangeNotifier {
       );
 
       // If there is a recommended version, then download the file.
-      final Response response = await GitHub.getJAR('${title.replaceAll(':', ' -')}/${jar.file}');
-      if (response.statusCode == 401) throw "Sorry, the server runned out the requests, please try again later.";
-      if (response.statusCode == 404) throw "Sorry, the $title file was not found!";
-
-      final File file = await Android.writeTemporary(response.bodyBytes, jar.file);
+      final Response response = await GitHub.get('${title.replaceAll(':', ' -')}/${jar.file}');
+      
+      final File file = await Android.temporary(response.bodyBytes);
 
       // At last call a native Android channel to install the .JAR file into J2ME Loader emulator.
       const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
@@ -84,7 +82,7 @@ class _Controller extends ChangeNotifier {
   /// Play the audio using the game's [title] as a key. If the audio isn't found, tries to [_fetchSoundtrack] from source. \
   /// The audio file is of type .RTX.
   Future<void> _playSoundtrack() async {
-    final File file = await Android.load('theme.rtx', title.replaceAll(':', ' -'));
+    final File file = await Android.read('$title.rtx');
     final bool exists = await file.exists(); 
 
     // If exists play the .RTX theme.
@@ -101,15 +99,12 @@ class _Controller extends ChangeNotifier {
   /// Fetch the .RTX from source then stores in the cache system.
   /// When the file is successfully downloaded also play the soundtrack.
   Future<void> _fetchSoundtrack() async {
-    final String name = title.replaceAll(':', ' -');
     try {
       // Fetch .RTX from source.
-      final Response response = await GitHub.getRTX('$name.rtx');
-      if (response.statusCode == 401) throw "Sorry, the server runned out the requests, please try again later.";
-      if (response.statusCode == 404) throw "Sorry, the $title theme audio was not found!";
+      final Response response = await GitHub.get('$title.rtx');
 
       // Write the file on the device, then play it.
-      final File file = await Android.write(response.bodyBytes, 'theme.rtx', name);
+      final File file = await Android.write(response.bodyBytes, '$title.rtx');
       await player.play(DeviceFileSource(file.path));
     }
     catch (_) {}
