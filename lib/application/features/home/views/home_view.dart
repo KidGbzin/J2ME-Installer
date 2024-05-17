@@ -1,48 +1,56 @@
 part of '../home_handler.dart';
 
-class _Home extends StatelessWidget {
-  const _Home();
+class _View extends StatefulWidget {
+  const _View(this.controller);
+
+  final _Controller controller;
+
+  @override
+  State<_View> createState() => _ViewState();
+}
+
+class _ViewState extends State<_View> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           children: <Widget> [
-            ValueListenableBuilder(
-              valueListenable: _Notifier.of(context)!.isListView,
-              builder: (BuildContext context, bool isListView, Widget? _) {
-                if (isListView) {
-                  return Button(
-                    icon: Icons.list_rounded,
-                    onTap: () => _Notifier.of(context)!.changeView(),
-                  );
-                }
-                else {
-                  return Button(
-                    icon: Icons.grid_3x3_rounded,
-                    onTap: () => _Notifier.of(context)!.changeView(),
-                  );
-                }
-              }
+            const Spacer(),
+            _ToggleButton(
+              listenable: widget.controller.viewState,
+              onTap: widget.controller.toggleView,
             ),
           ],
         ),
       ),
-      body: ValueListenableBuilder(
-        valueListenable: _Notifier.of(context)!.isListView,
-        builder: (BuildContext context, bool isListView, Widget? _) {
-          if (isListView) {
-            return _ListView(_Notifier.of(context)!.games);
-          }
-          else {
-            return _GridView(_Notifier.of(context)!.games);
-          }
+      body: _view(),
+    );
+  }
+
+  Widget _view() {
+    return ValueListenableBuilder(
+      builder: (BuildContext context, ViewType view, Widget? _) {
+        if (view == ViewType.listView) {
+          return _ListView(widget.controller);
         }
-      ),
+        else {
+          return _GridView(widget.controller);
+        }
+      },
+      valueListenable: widget.controller.viewState,
     );
   }
 }

@@ -1,72 +1,47 @@
 part of '../home/home_handler.dart';
 
-/// The [InheritedNotifier] for [Home] view.
-class _Notifier extends InheritedNotifier<_Controller> {
-  const _Notifier({
-    required _Controller super.notifier,
-    required super.child,
-  });
+class _Controller {
 
-  static _Controller? of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_Notifier>()!.notifier;
-}
+  _Controller._();
 
-/// The [Home] controller, used to manipulate states and operations.
-class _Controller extends ChangeNotifier {
-  late final List<Game> games;
-  late States state;
-  late ValueNotifier<bool> isListView;
+  factory _Controller() {
+    _initialize();
+    return _Controller._();
+  }
 
-  /// The [_Controller] constructor. After create a instance make sure to [initialize] it.
-  _Controller();
+  static late ValueNotifier<ViewType> view;
+  static late ValueNotifier<Progress> progress;
 
-  Future<void> initialize() async {
-    isListView = ValueNotifier(true);
-    state = States.loading;
+  /// Getters:
+  ValueNotifier<ViewType> get viewState => view;
+  ValueNotifier<Progress> get progressState => progress;
+
+  /// Toggle the view state, change the state between list or grid.
+  void toggleView() => view.value = (view.value == ViewType.listView) ? ViewType.gridView : ViewType.listView;
+
+  /// Initialize the controller and fetch the necessary data.
+  /// 
+  /// While the controlles is fetching updates the progress of it's [progress].
+  static Future<void> _initialize() async {
+    view = ValueNotifier(ViewType.listView);
+    progress = ValueNotifier(Progress.loading);
     try {
       await Android.initialize();
       await Repository.fetch();
-      games = Repository.collection;
-      state = States.finished;
+      progress.value = Progress.finished;
     }
-    catch (error) {
-      state = States.error;
-    }
-  }
-
-  void changeView() {
-    if (isListView.value) {
-      isListView.value = false;
-    }
-    else {
-      isListView.value = true;
+    catch (_) {
+      progress.value = Progress.error;
     }
   }
 
-  /// Get the thumbnail from cache system as [Uint8List]. \
-  /// If the cache does not exist, then thies to [_fetchThumbnail] from source.
+  /// Get the cover image from device system as [File] using the game [title].
   /// 
-  /// The parameter [title] is self-explanatory, just the game's title. It is of type [String].
-  Future<File> loadThumbnail(String title) async {
-    final File file = await Android.read('$title.png');
-    final bool exists = await file.exists(); 
-
-    // If exists play the .RTX theme.
-    if (exists) {
-      return file;
-    }
-
-    // If the file is not found in cache, then tries to fetch from source.
-    else {
-      return _fetchThumbnail(title);
-    }
-  }
-
-  /// Fetch the .PNG file from source then stores in the cache system.
-  /// When the file is successfully cached also [notifyListeners].
-  /// 
-  /// The parameter [title] is self-explanatory, just the game's title. It is of type [String].
-  Future<File> _fetchThumbnail(String title) async {
-    late final File file;
+  /// If the cache does not exist, then thies to fetch from GitHub API.
+  Future<File> getCover(String title) async {
+    File file = await Android.read('$title.png');
+    final bool exists = await file.exists();
+    if (exists) return file;
     try {
       final Response response = await GitHub.get('$title.png');
       file = await Android.write(response.bodyBytes, '$title.png');

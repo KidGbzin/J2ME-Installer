@@ -16,7 +16,7 @@ class _Controller extends ChangeNotifier {
   final String title;
   
   late final Game game;
-  late States state;
+  late Progress state;
   late final ValueNotifier<bool> isDownloading;
 
   /// The [_Controller] constructor. After create a instance make sure to [initialize] it.
@@ -29,18 +29,18 @@ class _Controller extends ChangeNotifier {
   });
 
   /// Initialize the [_Controller] by feching the game's data from [Repository] repository using it's title as key. \
-  /// Update the [state] based on whether the game was found [States.finished] or not [States.error].
+  /// Update the [state] based on whether the game was found [Progress.finished] or not [Progress.error].
   Future<void> initialize() async {
-    state = States.loading;
+    state = Progress.loading;
     isDownloading = ValueNotifier(false);
     try {
       game = Repository.collection.firstWhere((element) => element.title == title);
       _playSoundtrack();
-      state = States.finished;
+      state = Progress.finished;
     }
     catch (_) {
       Logger.error.log('Unable to find the game $title!');
-      state = States.error;
+      state = Progress.error;
     }
     notifyListeners();
   }

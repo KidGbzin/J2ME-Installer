@@ -2,8 +2,9 @@ part of '../home_handler.dart';
 
 class _Tile extends StatelessWidget {
   final Game game;
+  final _Controller controller;
 
-  const _Tile(this.game);
+  const _Tile(this.game, this.controller);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class _Tile extends StatelessWidget {
           SizedBox(
             height: 120,
             width: 120 * 0.75,
-            child: _Cover(game.title),
+            child: _Cover(controller.getCover(game.title)),
           ),
           Expanded(
             child: Column(

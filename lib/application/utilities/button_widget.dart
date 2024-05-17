@@ -4,17 +4,20 @@ import '../core/enumerations/palette_enumeration.dart';
 
 /// The global appication's button.
 /// 
-/// The parameter [icon] is the material icon from the Flutter SDK. It's of the type [IconData]. \
-/// The parameter [onTap] is an function to be executed when [Button] is tapped. It's of the type [Function].
+/// This button is used everywhere in the application.
 class Button extends StatelessWidget {
-  final IconData icon;
-  final Function() onTap;
   
   const Button({
-    super.key,
     required this.icon,
     required this.onTap,
+    super.key,
   });
+
+  /// A material icon from the Flutter SDK.
+  final IconData icon;
+
+  /// An function to be executed when [Button] is tapped.
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {

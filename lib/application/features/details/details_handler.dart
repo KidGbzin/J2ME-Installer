@@ -11,7 +11,7 @@ import '../../core/entities/jar_entity.dart';
 
 import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
-import '../../core/enumerations/states_enumeration.dart';
+import '../../core/enumerations/progress_enumeration.dart';
 import '../../core/enumerations/typographies_enumeration.dart';
 
 import '../../core/repositories/android_repository.dart';
@@ -72,9 +72,9 @@ class _DetailsState extends State<Details> {
   }
 
   Widget _handler() {
-    if (_controller.state == States.loading) return const SizedBox();
-    if (_controller.state == States.error) return const SizedBox();
-    if (_controller.state == States.finished) return _Details(_controller.game);
+    if (_controller.state == Progress.loading) return const SizedBox();
+    if (_controller.state == Progress.error) return const SizedBox();
+    if (_controller.state == Progress.finished) return _Details(_controller.game);
     throw Exception();
   }
 }

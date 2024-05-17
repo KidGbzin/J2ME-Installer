@@ -1,18 +1,18 @@
 part of '../home_handler.dart';
 
 class _Cover extends StatelessWidget {
-  final String title;
+  final Future<File>? getCover;
 
-  const _Cover(this.title);
+  const _Cover(this.getCover);
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-        if (snapshot.hasData) {
-          return _coverImage(snapshot.data!);
+      builder: (BuildContext context, AsyncSnapshot<File> cover) {
+        if (cover.hasData) {
+          return _coverImage(cover.data!);
         }
-        else if (snapshot.hasError) {
+        else if (cover.hasError) {
           // TODO: Make a placeholder on error!
           return const Placeholder();
         }
@@ -21,7 +21,7 @@ class _Cover extends StatelessWidget {
           return const SizedBox.shrink();
         }
       },
-      future: _Notifier.of(context)!.loadThumbnail(title),
+      future: getCover,
     );
   }
 
