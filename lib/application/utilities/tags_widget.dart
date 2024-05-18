@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import '../core/enumerations/palette_enumeration.dart';
 import '../core/enumerations/typographies_enumeration.dart';
 
+/// Show the tags of a game.
 class Tags extends StatelessWidget {
-  final List<String> tags;
 
   const Tags(this.tags, {super.key});
+
+  /// A list of game tags.
+  /// 
+  /// Used to show a tag label for each game tag.
+  final List<String> tags;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +23,7 @@ class Tags extends StatelessWidget {
     );
   }
 
+  /// Transform the [tags] list into a list of [_tag] widget. 
   List<Widget> _getTags() {
     final List<Widget> temporary = <Widget> [];
     for (String index in tags) {
@@ -27,6 +33,7 @@ class Tags extends StatelessWidget {
     return temporary;
   }
 
+  /// Build a label [Widget] using the tag name. 
   Widget _tag(String tag) {
     return FittedBox(
       child: Container(

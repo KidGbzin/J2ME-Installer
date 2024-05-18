@@ -1,76 +1,84 @@
 part of '../details/details_handler.dart';
 
-/// The [InheritedNotifier] for [Details] view.
-class _Notifier extends InheritedNotifier<_Controller> {
-  const _Notifier({
-    required _Controller super.notifier,
-    required super.child,
-  });
+/// The controller used to handle the [Details] state and data.
+class _Controller {
 
-  static _Controller? of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_Notifier>()!.notifier;
-}
+  _Controller(this.title);
 
-/// The [Details] controller, used to manipulate states and operations.
-class _Controller extends ChangeNotifier {
-  final AudioPlayer player;
+  /// Self-explanatory, just the game's title.
+  /// 
+  /// It is used as an identifier in the repository.
   final String title;
-  
+
+  /// The game used to show its data.
   late final Game game;
-  late Progress state;
+
+  /// The [isDownloading] listenable.
+  /// 
+  /// Used in the [_PlayButton] component, it represents whether any [JAR] files are being downloaded.
   late final ValueNotifier<bool> isDownloading;
 
-  /// The [_Controller] constructor. After create a instance make sure to [initialize] it.
-  ///
-  /// The parameter [player] is the controller that handle the soundtrack. It is of type [AudioPlayer]. \
-  /// The parameter [title] is self-explanatory, just the game's title. It is of type [String].
-  _Controller({
-    required this.player,
-    required this.title,
-  });
-
-  /// Initialize the [_Controller] by feching the game's data from [Repository] repository using it's title as key. \
-  /// Update the [state] based on whether the game was found [Progress.finished] or not [Progress.error].
+  /// The [progress] listenavle.
+  /// 
+  /// Used in the [Details] handler, it represents the current state of the view when initialized.
+  late final ValueNotifier<Progress> progress;
+  
+  /// Initialize the controller and fetch the necessary data.
+  /// 
+  /// While the controller is fetching, updates the state of it's [progress].
   Future<void> initialize() async {
-    state = Progress.loading;
     isDownloading = ValueNotifier(false);
+    progress = ValueNotifier(Progress.loading);
     try {
       game = Repository.collection.firstWhere((element) => element.title == title);
-      _playSoundtrack();
-      state = Progress.finished;
+      progress.value = Progress.finished;
     }
     catch (_) {
-      Logger.error.log('Unable to find the game $title!');
-      state = Progress.error;
+      Logger.error.log('Unable to find the game $title on the repository!');
+      progress.value = Progress.error;
     }
-    notifyListeners();
   }
 
-  /// Try to get the game's thumbnail from the cache repository by it's [title].
-  /// Return the thumbnail bytes in [Uint8List] if exists or null if not.
-  Future<File> getThumbnail() async {
+  /// Tries to get the game's cover from the device system by it's [title].
+  /// 
+  /// Return the cover audio as a [File] if exists.
+  Future<File> getCover() async {
     final File file = await Android.read('$title.png');
-    if (file.existsSync()) {
+    final bool exists = await file.exists();
+    if (exists) return file;
+    throw 'The game "$title" there\'s no cover cached.';
+  }
+
+  /// Tries to get the game's cover from the device system by it's [title].
+  /// 
+  /// Return the audio as a [File] if exists.
+  Future<File> getAudio() async {
+    final File file = await Android.read('$title.rtx');
+    final bool exists = await file.exists(); 
+    if (exists) return file;
+    try {
+      final Response response = await GitHub.get('$title.rtx');
+      final File file = await Android.write(response.bodyBytes, '$title.rtx');
       return file;
     }
-    throw '';
+    catch (error) {
+      rethrow;
+    }
   }
 
-  /// Install the .JAR file into the J2ME Loader emulator.
-  /// If the emulator is not installed then redirect to it's page on the PlayStore or GitHub.
+  /// Install the .JAR file into the J2ME Loader emulator. If the emulator is not installed then redirect to it's page on the PlayStore.
   Future<void> install() async {
     isDownloading.value = true;
     try {
-      // First check if the game has a recommended version to install, if not throws an exception.
       final JAR jar = game.jars.firstWhere((element) => element.isComplete == true,
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
-
-      // If there is a recommended version, then download the file.
-      final Response response = await GitHub.get('${title.replaceAll(':', ' -')}/${jar.file}');
+      final Response response = await GitHub.get('$title/${jar.file}');
       
       final File file = await Android.temporary(response.bodyBytes);
 
-      // At last call a native Android channel to install the .JAR file into J2ME Loader emulator.
+      // Native Android call to install the .JAR file into J2ME Loader emulator.
+      // The activity must be configured on the Android before used.
       const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
       await channel.invokeMethod('openJarFile', file.path);
     }
@@ -79,41 +87,9 @@ class _Controller extends ChangeNotifier {
     }
   }
 
-  /// Play the audio using the game's [title] as a key. If the audio isn't found, tries to [_fetchSoundtrack] from source. \
-  /// The audio file is of type .RTX.
-  Future<void> _playSoundtrack() async {
-    final File file = await Android.read('$title.rtx');
-    final bool exists = await file.exists(); 
-
-    // If exists play the .RTX theme.
-    if (exists) {
-      await player.play(DeviceFileSource(file.path));
-    }
-
-    // If the file is not found in cache, then tries to fetch from source.
-    else {
-      _fetchSoundtrack();
-    }
-  }
-
-  /// Fetch the .RTX from source then stores in the cache system.
-  /// When the file is successfully downloaded also play the soundtrack.
-  Future<void> _fetchSoundtrack() async {
-    try {
-      // Fetch .RTX from source.
-      final Response response = await GitHub.get('$title.rtx');
-
-      // Write the file on the device, then play it.
-      final File file = await Android.write(response.bodyBytes, '$title.rtx');
-      await player.play(DeviceFileSource(file.path));
-    }
-    catch (_) {}
-  }
-
-  /// Dispose the [_Controller].
-  @override
+  /// Discard the resourses used on the controller.
   void dispose() {
-    player.dispose();
-    super.dispose();
+    isDownloading.dispose();
+    progress.dispose();
   }
 }

@@ -2,7 +2,10 @@ part of '../details_handler.dart';
 
 /// Install the recommended .JAR file into the emulator, if any.
 class _PlayButton extends StatelessWidget {
-  const _PlayButton();
+
+  const _PlayButton(this.controller);
+
+  final _Controller controller;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class _PlayButton extends StatelessWidget {
         height: 40,
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
         width: width,
-        child: _listener(_Notifier.of(context)!.isDownloading),
+        child: _listener(controller.isDownloading),
       ),
     );
   }
@@ -40,7 +43,6 @@ class _PlayButton extends StatelessWidget {
 
   /// Tries to install the game on the J2ME emulator.
   Future<void> _install(BuildContext context) async {
-    final _Controller controller = _Notifier.of(context)!;
     try {
       // If the game is not already downloading, tries to install the game or return an error.
       if (controller.isDownloading.value == false) await controller.install();

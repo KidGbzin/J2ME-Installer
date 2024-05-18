@@ -1,48 +1,70 @@
 part of '../details_handler.dart';
 
 class _Details extends StatefulWidget {
-  final Game game;
 
-  const _Details(this.game);
+  const _Details(this.controller);
+
+  final _Controller controller;
 
   @override
   State<_Details> createState() => __DetailsState();
 }
 
 class __DetailsState extends State<_Details> with WidgetsBindingObserver {
+  late Game game;
+  late AudioPlayer player;
   late ScaffoldMessengerState snackbar;
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
+    game = widget.controller.game;
+    player = AudioPlayer();
+    playAudio();
+
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    snackbar = ScaffoldMessenger.of(context);
+
+    super.didChangeDependencies();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // If the application returns to resume state, then resume de music player.
     if (state == AppLifecycleState.resumed) {
-      _Notifier.of(context)!.player.resume();
+      player.resume();
     }
 
     // If the application is not in the main view, then stops the music player.
     else {
-      _Notifier.of(context)!.player.pause();
+      player.pause();
     }
-    super.didChangeAppLifecycleState(state);
-  }
 
-  @override
-  void didChangeDependencies() {
-    snackbar = ScaffoldMessenger.of(context);
-    super.didChangeDependencies();
+    super.didChangeAppLifecycleState(state);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     snackbar.clearSnackBars();
+    player.dispose();
+
     super.dispose();
+  }
+
+  /// Play the game's theme.
+  /// 
+  /// Try to load the audio, if for some reason it can't it just doesn't do anything.
+  Future<void> playAudio() async {
+    try {
+      final File file = await widget.controller.getAudio();
+      await player.play(DeviceFileSource(file.path));
+    }
+    catch (_) {}
   }
 
   @override
@@ -63,12 +85,14 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
       body: ListView(
         padding: EdgeInsets.zero,
         children: <Widget> [
-          const _Cover(),
+          _Cover(
+            getCover: widget.controller.getCover(),
+          ),
           const _Divider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 0, 10),
             child: Text(
-            widget.game.title.toUpperCase(),
+            game.title.toUpperCase(),
               style: Typographies.header(Palette.elements).style,
               maxLines: 1,
               overflow: TextOverflow.clip,
@@ -77,28 +101,28 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             child: Text(
-              "${widget.game.release} • ${widget.game.vendor}",
+              "${game.release} • ${game.vendor}",
               style: Typographies.body(Palette.grey).style,
               textAlign: TextAlign.left,
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-            child: Tags(widget.game.tags),
+            child: Tags(game.tags),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
             child: Text(
-              widget.game.description ?? '',
+              game.description ?? '',
               style: Typographies.body(Palette.grey).style,
             ),
           ),
           const _Divider(),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: _PlayButton(),
+              child: _PlayButton(widget.controller),
             ),
           ),
         ],
