@@ -48,7 +48,7 @@ class _PlayButton extends StatelessWidget {
       if (controller.isDownloading.value == false) await controller.openGame();
     }
     // Throwed when MainActivity is unable to find emulator activity on the device.
-    on PlatformException catch (_) {
+    on MissingPluginException catch (_) {
       if (!context.mounted) return;
       showDialog(
         builder: (BuildContext context) {
