@@ -16,11 +16,15 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
-            when (call.method) {
-                "openJarFile" -> {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
+            call, result -> when (call.method) {
+                "Install" -> {
                     val filePath = call.arguments as String
-                    openJarFile(filePath)
+                    install(filePath)
+                    result.success(null)
+                }
+                "PlayStore" -> {
+                    openPlayStore("ru.playsoftware.j2meloader")
                     result.success(null)
                 }
                 else -> {
@@ -30,37 +34,29 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun openJarFile(filePath: String) {
+    private fun install(filePath: String) {
         val file = File(filePath)
         val uri = FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", file)
         val intent = Intent(Intent.ACTION_VIEW)
-        
         intent.setDataAndType(uri, "application/java-archive")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
         try {
             intent.setClassName("ru.playsoftware.j2meloader", "ru.playsoftware.j2meloader.MainActivity")
             startActivity(intent)
         }
-
         catch (error: Exception) {
-            Log.e("MainActivity", "The system was unable to find J2ME Loader activity!", error)
-
-            openPlayStore("ru.playsoftware.j2meloader")
+            throw Exception("The system was unable to find J2ME Loader activity!")
         }
     }
 
     private fun openPlayStore(packageName: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
-        
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        
         try {
             startActivity(intent)
         }
-        
         catch (error: ActivityNotFoundException) {
-            Log.e("MainActivity", "This device doesn't have the PlayStore installed!", error)
+            throw Exception("This device does not have PlayStore installed.")
         }
     }
 }

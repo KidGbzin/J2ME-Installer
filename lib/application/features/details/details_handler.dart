@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/entities/game_entity.dart';
 import '../../core/entities/jar_entity.dart';
@@ -23,6 +24,7 @@ import '../../utilities/button_widget.dart';
 import '../../utilities/tags_widget.dart';
 
 part '../details/components/cover_component.dart';
+part '../details/components/dialog_component.dart';
 part '../details/components/divider_component.dart';
 part '../details/components/play_button_component.dart';
 

@@ -50,17 +50,12 @@ class _PlayButton extends StatelessWidget {
     catch (error) {
       // If an error is returned, show a message to the user.
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: SizedBox(
-          height: 41,
-          width: double.infinity,
-          child: Text(
-            '$error',
-            style: Typographies.body(Palette.elements).style,
-          ),
-        ),
-        padding: const EdgeInsets.all(15),
-      ));
+      showDialog(
+        builder: (BuildContext context) {
+          return _Dialog(controller);
+        },
+        context: context,
+      );
     }
   }
 

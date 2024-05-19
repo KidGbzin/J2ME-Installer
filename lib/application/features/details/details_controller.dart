@@ -74,17 +74,50 @@ class _Controller {
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
       final Response response = await GitHub.get('$title/${jar.file}');
-      
       final File file = await Android.temporary(response.bodyBytes);
 
       // Native Android call to install the .JAR file into J2ME Loader emulator.
       // The activity must be configured on the Android before used.
       const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
-      await channel.invokeMethod('openJarFile', file.path);
+      try {
+        await channel.invokeMethod('Install', file.path);
+      }
+      catch (_) {
+        throw 'J2ME Loader emulator is not installed on the device.';
+      }
     }
     finally {
       isDownloading.value = false;
     }
+  }
+
+  /// Opens the emulator's page on the Google PlayStore.
+  /// 
+  /// Throws an exception if the PlayStore is not installed on the device.
+  Future<void> openPlayStore() async {
+    // Native Android call to install the .JAR file into J2ME Loader emulator.
+    // The activity must be configured on the Android before used.
+    const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
+    try {
+      await channel.invokeMethod('PlayStore');
+    }
+    catch (_) {
+      throw 'The PlayStore is not installed on the device.';
+    }
+  }
+
+  /// Opens the emulator's repository on the GitHub.
+  /// 
+  /// Throws an exception if something blocks the URL launcher.
+  Future<void> openGitHub() async {
+    final Uri url = Uri.parse("https://github.com/nikita36078/J2ME-Loader");
+    try {
+      await launchUrl(url);
+    }
+    catch (_) {
+      throw 'Could not open GitHub repository.';
+    }
+    
   }
 
   /// Discard the resourses used on the controller.
