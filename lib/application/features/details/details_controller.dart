@@ -51,41 +51,37 @@ class _Controller {
 
   /// Tries to get the game's cover from the device system by it's [title].
   /// 
-  /// Return the audio as a [File] if exists.
+  /// Return the audio as a [File] if exists or throws an error.
   Future<File> getAudio() async {
     final File file = await Android.read('$title.rtx');
     final bool exists = await file.exists(); 
     if (exists) return file;
-    try {
-      final Response response = await GitHub.get('$title.rtx');
-      final File file = await Android.write(response.bodyBytes, '$title.rtx');
-      return file;
-    }
-    catch (error) {
-      rethrow;
-    }
+    final Response response = await GitHub.get('$title.rtx');
+    return await Android.write(response.bodyBytes, '$title.rtx');
   }
 
-  /// Install the .JAR file into the J2ME Loader emulator. If the emulator is not installed then redirect to it's page on the PlayStore.
-  Future<void> install() async {
+  /// Install the .JAR file into the J2ME Loader emulator.
+  /// If the emulator is not installed then redirect to it's page on the PlayStore.
+  Future<void> _install(File file) async {
+    const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
+    await channel.invokeMethod('Install', file.path);
+  }
+
+  /// Open the .JAR file from cache/source then installs it.
+  Future<void> openGame() async {
     isDownloading.value = true;
     try {
       final JAR jar = game.jars.firstWhere((element) => element.isComplete == true,
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
-      final Response response = await GitHub.get('$title/${jar.file}');
-      final File file = await Android.temporary(response.bodyBytes);
-
-      // Native Android call to install the .JAR file into J2ME Loader emulator.
-      // The activity must be configured on the Android before used.
-      const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
-      try {
-        await channel.invokeMethod('Install', file.path);
+      File file = await Android.read('$title/${jar.file}');
+      final bool exists = await file.exists();
+      if (!exists) {
+        final Response response = await GitHub.get('$title/${jar.file}');
+        file = await Android.write(response.bodyBytes, '$title/${jar.file}');
       }
-      catch (_) {
-        throw 'J2ME Loader emulator is not installed on the device.';
-      }
-    }
+      await _install(file);
+    }    
     finally {
       isDownloading.value = false;
     }
@@ -101,7 +97,8 @@ class _Controller {
     try {
       await channel.invokeMethod('PlayStore');
     }
-    catch (_) {
+    catch (error) {
+      Logger.error.log('$error');
       throw 'The PlayStore is not installed on the device.';
     }
   }
@@ -114,7 +111,8 @@ class _Controller {
     try {
       await launchUrl(url);
     }
-    catch (_) {
+    catch (error) {
+      Logger.error.log('$error');
       throw 'Could not open GitHub repository.';
     }
     

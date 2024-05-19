@@ -45,10 +45,10 @@ class _PlayButton extends StatelessWidget {
   Future<void> _install(BuildContext context) async {
     try {
       // If the game is not already downloading, tries to install the game or return an error.
-      if (controller.isDownloading.value == false) await controller.install();
+      if (controller.isDownloading.value == false) await controller.openGame();
     }
-    catch (error) {
-      // If an error is returned, show a message to the user.
+    // Throwed when MainActivity is unable to find emulator activity on the device.
+    on PlatformException catch (_) {
       if (!context.mounted) return;
       showDialog(
         builder: (BuildContext context) {
@@ -56,6 +56,14 @@ class _PlayButton extends StatelessWidget {
         },
         context: context,
       );
+    }
+    // Throwed when there is no internet connection.
+    on ClientException catch (_) {
+      // TODO: Handle client exception error.
+    }
+    catch (error) {
+      Logger.error.log('$error');
+      // TODO: Handle default error.
     }
   }
 

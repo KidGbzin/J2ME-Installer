@@ -43,8 +43,11 @@ class Android {
     try {
       output = output.replaceAll(':', ' -'); // Replaces the ':' caracter to ' -', because is a forbidden caracter on file systems.
       final String extension = output.split('.').last.toUpperCase();
-      final Directory directory = Directory('${external!.path}/$extension');
-      await Directory(directory.path).create();
+      final String subfolder = output.split('/').first;
+      final Directory directory = Directory('${external!.path}/$extension')..createSync();
+      if (extension == 'JAR') {
+        Directory('${external!.path}/$extension/$subfolder').createSync();
+      }
       final File file = File('${directory.path}/$output');
       return await file.writeAsBytes(bytes);
     }

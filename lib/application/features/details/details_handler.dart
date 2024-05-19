@@ -20,8 +20,8 @@ import '../../core/repositories/games_repository.dart';
 
 import '../../core/services/github_service.dart';
 
-import '../../utilities/button_widget.dart';
-import '../../utilities/tags_widget.dart';
+import '../../widgets/button_widget.dart';
+import '../../widgets/tags_widget.dart';
 
 part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';

@@ -36,25 +36,19 @@ class GitHub {
   /// This method returns a reponse if the data is fetched correctly, in other words if returs status code 200, successfull.
   /// If not, throw an exception based on the error code.
   static Future<http.Response> fetch(String source) async {
-    try {
-      http.Response response = await http.get(
-        Uri.parse('$repository$source'),
-        headers: headers,
-      );
-      if (response.statusCode == 200) {
-        Logger.success.log('GitHub | ${response.statusCode}: $source');
-        return response;
-      }
-      else {
-        Logger.error.log('GitHub | ${response.statusCode}: $source');
-        if (response.statusCode == 401) throw 'Sorry, the server runned out the requests, please try again later.';
-        if (response.statusCode == 404) throw 'Sorry, unable to find the "$source" file.';
-        throw 'Sorry, the server returned error ${response.statusCode}.';
-      }
+    http.Response response = await http.get(
+      Uri.parse('$repository$source'),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      Logger.success.log('GitHub | ${response.statusCode}: $source');
+      return response;
     }
-    catch (error) {
-      Logger.error.log('$error');
-      throw 'Sorry, unable to connect the server. Please, check your network connection.';
+    else {
+      Logger.warning.log('GitHub | ${response.statusCode}: $source');
+      if (response.statusCode == 401) throw 'Sorry, the server runned out the requests, please try again later.';
+      if (response.statusCode == 404) throw 'Sorry, unable to find the "$source" file.';
+      throw 'Sorry, the server returned error ${response.statusCode}.';
     }
   }
 
