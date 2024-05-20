@@ -2,7 +2,6 @@ import '../entities/jar_entity.dart';
 
 /// The entity resposible for the game information.
 class Game {
-
   Game({
     required this.description,
     required this.jars,

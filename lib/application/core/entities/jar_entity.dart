@@ -1,6 +1,5 @@
 /// The entity responsible for the .JAR file information.
 class JAR {
-
   JAR({
     required this.file,
     required this.isComplete,

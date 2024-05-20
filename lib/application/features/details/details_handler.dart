@@ -55,7 +55,6 @@ class _DetailsState extends State<Details> {
 
   @override
   void dispose() {
-    
 
     super.dispose();
   }
