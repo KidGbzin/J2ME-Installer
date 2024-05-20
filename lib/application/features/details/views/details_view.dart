@@ -1,7 +1,6 @@
 part of '../details_handler.dart';
 
 class _Details extends StatefulWidget {
-
   const _Details(this.controller);
 
   final _Controller controller;
@@ -120,9 +119,36 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
           const _Divider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: _PlayButton(widget.controller),
+            child: Row(
+              children: <Widget> [
+                _PlayButton(widget.controller),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        // TODO: Add a action here.
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget> [
+                          Text(
+                            "Other Versions",
+                            style: Typographies.body(Palette.elements).style,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                            child: Icon(
+                              Icons.code_rounded,
+                              color: Palette.elements.color,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

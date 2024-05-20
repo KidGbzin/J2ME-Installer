@@ -41,11 +41,11 @@ class GitHub {
       headers: headers,
     );
     if (response.statusCode == 200) {
-      Logger.success.log('GitHub | ${response.statusCode}: $source');
+      Logger.success.log('GitHub • ${response.statusCode} | The file "$source" was successfully fetched.');
       return response;
     }
     else {
-      Logger.warning.log('GitHub | ${response.statusCode}: $source');
+      Logger.warning.log('GitHub • ${response.statusCode} | The file "$source" couldn\'t be fetched.');
       if (response.statusCode == 401) throw 'Sorry, the server runned out the requests, please try again later.';
       if (response.statusCode == 404) throw 'Sorry, unable to find the "$source" file.';
       throw 'Sorry, the server returned error ${response.statusCode}.';

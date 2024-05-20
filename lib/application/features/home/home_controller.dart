@@ -1,7 +1,6 @@
 part of '../home/home_handler.dart';
 
 class _Controller {
-
   _Controller._();
 
   factory _Controller() {
@@ -27,7 +26,7 @@ class _Controller {
     progress = ValueNotifier(Progress.loading);
     try {
       await Android.initialize();
-      await Repository.fetch();
+      await Database.initialize();
       progress.value = Progress.finished;
     }
     catch (_) {

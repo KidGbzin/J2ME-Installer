@@ -1,13 +1,17 @@
 part of '../home_handler.dart';
 
 class _GridView extends StatelessWidget {
-  final _Controller controller;
 
-  const _GridView(this.controller);
+  const _GridView({
+    required this.controller,
+    required this.collection,
+  });
+
+  final _Controller controller;
+  final Box<Game> collection;
 
   @override
   Widget build(BuildContext context) {
-    final List<Game> collection = Repository.collection;
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: 0.75,
@@ -18,11 +22,11 @@ class _GridView extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: () => context.push('/details/${collection[index].title}'),
-          child: _Cover(controller.getCover(collection[index].title)),
+          onTap: () => context.push('/details/${collection[index]!.title}'),
+          child: _Cover(controller.getCover(collection[index]!.title)),
         );
       },
-      itemCount: collection.length,
+      itemCount: Database.games.length,
       padding: const EdgeInsets.all(15),
     );
   }

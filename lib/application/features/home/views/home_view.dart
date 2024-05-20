@@ -44,10 +44,16 @@ class _ViewState extends State<_View> {
     return ValueListenableBuilder(
       builder: (BuildContext context, ViewType view, Widget? _) {
         if (view == ViewType.listView) {
-          return _ListView(widget.controller);
+          return _ListView(
+            collection: Database.games,
+            controller: widget.controller,
+          );
         }
         else {
-          return _GridView(widget.controller);
+          return _GridView(
+            collection: Database.games,
+            controller: widget.controller,
+          );
         }
       },
       valueListenable: widget.controller.viewState,

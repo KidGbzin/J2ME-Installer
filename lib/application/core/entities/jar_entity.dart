@@ -54,4 +54,20 @@ class JAR {
       version: object['version'] as String,
     );
   }
+
+  /// Export the [JAR] object to a JSON string.
+  /// 
+  /// This method is required to Hive write and read the object's data.
+  Map<String, dynamic> toJson() {
+    return <String, dynamic> {
+      'file': file,
+      'isComplete': isComplete,
+      'isTouchscreen': isTouchscreen,
+      'languages': languages,
+      'resolution': resolution,
+      'size': size,
+      'title': title,
+      'version': version,
+    };
+  }
 }

@@ -16,7 +16,7 @@ import '../../core/enumerations/progress_enumeration.dart';
 import '../../core/enumerations/typographies_enumeration.dart';
 
 import '../../core/repositories/android_repository.dart';
-import '../../core/repositories/games_repository.dart';
+import '../../core/repositories/database_repository.dart';
 
 import '../../core/services/github_service.dart';
 
@@ -35,7 +35,6 @@ part '../details/details_controller.dart';
 /// The screen responsible to show all the game's data.
 /// Such cover arts, game description, and the .JAR files available to install.
 class Details extends StatefulWidget {
-
   const Details(this.title, {super.key});
 
   final String title;

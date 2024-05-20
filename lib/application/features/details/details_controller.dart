@@ -30,11 +30,11 @@ class _Controller {
     isDownloading = ValueNotifier(false);
     progress = ValueNotifier(Progress.loading);
     try {
-      game = Repository.collection.firstWhere((element) => element.title == title);
+      game = Database.games.get(title)!;
       progress.value = Progress.finished;
     }
     catch (_) {
-      Logger.error.log('Unable to find the game $title on the repository!');
+      Logger.warning.log('Details • Controller | Couldn\'t find "$title" in the local database.');
       progress.value = Progress.error;
     }
   }

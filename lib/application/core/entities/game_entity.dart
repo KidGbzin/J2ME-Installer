@@ -43,4 +43,18 @@ class Game {
       vendor: object['vendor'] as String,
     );
   }
+
+  /// Export the [JAR] object to a JSON string.
+  /// 
+  /// This method is required to Hive write and read the object's data.
+  Map<String, dynamic> toJson() {
+    return <String, dynamic> {
+      'description': description,
+      'jars': jars.map((jar) => jar.toJson()).toList(),
+      'release': release,
+      'tags': tags,
+      'title': title,
+      'vendor': vendor,
+    };
+  }
 }
