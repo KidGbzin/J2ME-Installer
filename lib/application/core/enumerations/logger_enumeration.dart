@@ -7,17 +7,22 @@ enum Logger {
   /// An [error] log.
   /// 
   /// Used to [print] unhandled [Exception]s that breaks the application.
-  error('31', '⛔'),
+  error("31", "⛔"),
 
-  /// An [success] log.
+  /// A simple [information] log.
+  /// 
+  /// Used to [print] usual information that don't affects the application development.
+  information("00", "📣"),
+
+  /// A [success] log.
   /// 
   /// Used to [print] sucessfull requests.
-  success('32', '✅',),
+  success("32", "✅"),
 
-  /// An [warning] log.
+  /// A [warning] log.
   /// 
   /// Used to [print] alerts that does not break the application such as "not found" actions.
-  warning('33', '📣');
+  warning("33", "📢");
 
   const Logger(this.code, this.emoji);
 
@@ -41,5 +46,5 @@ enum Logger {
   /// Print function on the console with a colored text
   /// 
   /// The written log is led by an [emoji] and its color is based on the [Logger] enumeration value provided.
-  void log(String text) => debugPrint('\x1b[${code}m$emoji $text\x1B[0m');
+  void log(String text) => debugPrint("\x1b[${code}m$emoji $text\x1B[0m");
 }

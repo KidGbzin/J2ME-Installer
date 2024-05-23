@@ -24,12 +24,14 @@ class _Controller {
   static Future<void> _initialize() async {
     view = ValueNotifier(ViewType.listView);
     progress = ValueNotifier(Progress.loading);
+    await Database.initialize();
     try {
       await Android.initialize();
-      await Database.initialize();
+      
       progress.value = Progress.finished;
     }
-    catch (_) {
+    catch (error) {
+      Logger.error.log('Home • Controller | $error');
       progress.value = Progress.error;
     }
   }
