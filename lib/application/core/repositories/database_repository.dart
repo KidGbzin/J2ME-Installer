@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show DateUtils;
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:path_provider/path_provider.dart';
@@ -86,7 +86,7 @@ class Database {
     else {
       final Response response = await GitHub.fetch("API.json");
       final API api = API.parse(response.body);
-      final bool isUpToDate = api.lastUpdated.isAfter(lastUpdated);
+      final bool isUpToDate = lastUpdated.isAfter(api.lastUpdated);
       if (isUpToDate) {
         Logger.information.log("Database • Hive | The local database is up to date!");
       }
