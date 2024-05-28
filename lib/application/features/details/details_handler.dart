@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:j2me_installer/application/core/repositories/storage_repository.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/entities/game_entity.dart';
 import '../../core/entities/jar_entity.dart';
@@ -18,6 +17,7 @@ import '../../core/enumerations/typographies_enumeration.dart';
 
 import '../../core/repositories/database_repository.dart';
 
+import '../../core/services/activity_service.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/tags_widget.dart';
 

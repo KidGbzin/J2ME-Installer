@@ -23,8 +23,11 @@ class MainActivity : FlutterActivity() {
                     install(filePath)
                     result.success(null)
                 }
+                "GitHub" -> {
+                    gitHub()
+                }
                 "PlayStore" -> {
-                    openPlayStore("ru.playsoftware.j2meloader")
+                    playStore("ru.playsoftware.j2meloader")
                     result.success(null)
                 }
                 else -> {
@@ -49,7 +52,18 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun openPlayStore(packageName: String) {
+    private fun gitHub() {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nikita36078/J2ME-Loader"))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            startActivity(intent)
+        }
+        catch (error: ActivityNotFoundException) {
+            throw Exception("This device does not have Gui installed.")
+        }
+    }
+
+    private fun playStore(packageName: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {

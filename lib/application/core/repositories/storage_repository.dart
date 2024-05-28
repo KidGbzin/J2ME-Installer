@@ -75,9 +75,6 @@ class Storage {
     return file;
   }
 
-  /// Tries to get the game's .JAR file.
-  /// 
-  /// 
   static Future<File> getPackage(JAR jar) async {
     File file = Android.read(
       folder: Folder.packages.directory(

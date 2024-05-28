@@ -24,7 +24,6 @@ class _Controller {
     isDownloading = ValueNotifier(false);
     progress = ValueNotifier(Progress.loading);
     try {
-      await Storage.getIcon(title);
       game = Database.games.get(title)!;
       progress.value = Progress.finished;
     }
@@ -32,13 +31,6 @@ class _Controller {
       Logger.warning.log('Details • Controller | Couldn\'t find "$title" in the local database.');
       progress.value = Progress.error;
     }
-  }
-
-  /// Install the .JAR file into the J2ME Loader emulator.
-  /// If the emulator is not installed then redirect to it's page on the PlayStore.
-  Future<void> _install(File file) async {
-    const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
-    await channel.invokeMethod('Install', file.path);
   }
 
   /// Open the .JAR file from cache/source then installs it.
@@ -49,42 +41,16 @@ class _Controller {
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
       final File file = await Storage.getPackage(jar);
-      await _install(file);
+      await Activity.emulator(file);
     }
     finally {
       isDownloading.value = false;
     }
   }
 
-  /// Opens the emulator's page on the Google PlayStore.
-  /// 
-  /// Throws an exception if the PlayStore is not installed on the device.
-  Future<void> openPlayStore() async {
-    // Native Android call to install the .JAR file into J2ME Loader emulator.
-    // The activity must be configured on the Android before used.
-    const MethodChannel channel = MethodChannel('br.com.kidgbzin.j2me_loader/install');
-    try {
-      await channel.invokeMethod('PlayStore');
-    }
-    catch (error) {
-      Logger.error.log('$error');
-      throw 'The PlayStore is not installed on the device.';
-    }
-  }
+  Future<void> playStore() => Activity.playStore();
 
-  /// Opens the emulator's repository on the GitHub.
-  /// 
-  /// Throws an exception if something blocks the URL launcher.
-  Future<void> openGitHub() async {
-    final Uri url = Uri.parse("https://github.com/nikita36078/J2ME-Loader");
-    try {
-      await launchUrl(url);
-    }
-    catch (error) {
-      Logger.error.log('$error');
-      throw 'Could not open GitHub repository.';
-    }
-  }
+  Future<void> gitHub() => Activity.gitHub();
 
   /// Discard the resourses used on the controller.
   void dispose() {
