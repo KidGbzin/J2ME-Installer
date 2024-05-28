@@ -17,7 +17,7 @@ class _Tile extends StatelessWidget {
           SizedBox(
             height: 120,
             width: 120 * 0.75,
-            child: _Cover(controller.getCover(game.title)),
+            child: _Cover(Storage.getCover(game.title)),
           ),
           Expanded(
             child: Column(

@@ -60,7 +60,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
   /// Try to load the audio, if for some reason it can't it just doesn't do anything.
   Future<void> playAudio() async {
     try {
-      final File file = await widget.controller.getAudio();
+      final File file = await Storage.getAudio(widget.controller.game.title);
       await player.play(DeviceFileSource(file.path));
     }
     catch (_) {}
@@ -85,7 +85,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
         padding: EdgeInsets.zero,
         children: <Widget> [
           _Cover(
-            getCover: widget.controller.getCover(),
+            getCover: Storage.getCover(widget.controller.game.title),
           ),
           const _Divider(),
           Padding(

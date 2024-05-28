@@ -2,12 +2,7 @@ part of '../details/details_handler.dart';
 
 /// The controller used to handle the [Details] state and data.
 class _Controller {
-  _Controller(this.title);
-
-  /// Self-explanatory, just the game's title.
-  /// 
-  /// It is used as an identifier in the repository.
-  final String title;
+  _Controller();
 
   /// The game used to show its data.
   late final Game game;
@@ -25,10 +20,11 @@ class _Controller {
   /// Initialize the controller and fetch the necessary data.
   /// 
   /// While the controller is fetching, updates the state of it's [progress].
-  Future<void> initialize() async {
+  Future<void> initialize(String title) async {
     isDownloading = ValueNotifier(false);
     progress = ValueNotifier(Progress.loading);
     try {
+      await Storage.getIcon(title);
       game = Database.games.get(title)!;
       progress.value = Progress.finished;
     }
@@ -36,40 +32,6 @@ class _Controller {
       Logger.warning.log('Details • Controller | Couldn\'t find "$title" in the local database.');
       progress.value = Progress.error;
     }
-  }
-
-  /// Tries to get the game's cover from the device system by it's [title].
-  /// 
-  /// Return the cover audio as a [File] if exists.
-  Future<File> getCover() async {
-    final File file = await Android.read(
-      folder: Folder.covers.directory(),
-      name:'$title.png',
-    );
-    final bool exists = await file.exists();
-    if (exists) return file;
-    throw 'The game "$title" there\'s no cover cached.';
-  }
-
-  /// Tries to get the game's cover from the device system by it's [title].
-  /// 
-  /// Return the audio as a [File] if exists or throws an error.
-  Future<File> getAudio() async {
-    final File file = await Android.read(
-      folder: Folder.audios.directory(),
-      name:'$title.rtx',
-    );
-    final bool exists = await file.exists(); 
-    if (exists) return file;
-    final String source = Folder.audios.file(
-      file: '$title.rtx',
-    );
-    final Response response = await GitHub.fetch(source);
-    return await Android.write(
-      bytes: response.bodyBytes,
-      folder: Folder.audios.directory(),
-      name: "$title.rtx"
-    );
   }
 
   /// Install the .JAR file into the J2ME Loader emulator.
@@ -86,27 +48,7 @@ class _Controller {
       final JAR jar = game.jars.firstWhere((element) => element.isComplete == true,
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
-      File file = Android.read(
-        folder: Folder.packages.directory(
-          subfolder: jar.title,
-        ),
-        name: jar.file,
-      );
-      final bool exists = await file.exists();
-      if (!exists) {
-        final String source = Folder.packages.file(
-          file: jar.file,
-          subfolder: jar.title,
-        );
-        final Response response = await GitHub.fetch(source);
-        file = await Android.write(
-          bytes: response.bodyBytes,
-          folder: Folder.packages.directory(
-            subfolder: jar.title,
-          ),
-          name: jar.file,
-        );
-      }
+      final File file = await Storage.getPackage(jar);
       await _install(file);
     }
     finally {

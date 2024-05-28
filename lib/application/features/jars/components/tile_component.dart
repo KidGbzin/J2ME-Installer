@@ -53,7 +53,7 @@ class _Tile extends StatelessWidget {
           ),
           height: 25,
           width: 25,
-          child: _Icon(controller.getIcon(jar.title)),
+          child: _Icon(Storage.getIcon(jar.title)),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 15, 15, 15),

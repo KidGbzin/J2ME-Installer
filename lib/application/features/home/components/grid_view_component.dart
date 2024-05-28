@@ -23,7 +23,7 @@ class _GridView extends StatelessWidget {
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => context.push('/details/${collection[index]!.title}'),
-          child: _Cover(controller.getCover(collection[index]!.title)),
+          child: _Cover(Storage.getCover(collection[index]!.title)),
         );
       },
       itemCount: Database.games.length,

@@ -24,31 +24,4 @@ class _Controller {
       progress.value = Progress.error;
     }
   }
-
-  /// Tries to get the game's icon from the device system by it's [title].
-  /// 
-  /// Return the cover audio as a [File] if exists.
-  Future<File> getIcon(String title) async {
-    File file = await Android.read(
-      folder: Folder.icons.directory(),
-      name: '$title.png',
-    );
-    final bool exists = await file.exists();
-    if (exists) return file;
-    try {
-      final String source = Folder.icons.file(
-        file: '$title.png',
-      );
-      final Response response = await GitHub.fetch(source);
-      file = await Android.write(
-        bytes: response.bodyBytes,
-        folder: Folder.icons.directory(),
-        name: '$title.png',
-      );
-      return file;
-    }
-    catch (_) {
-      return file;
-    }
-  }
 }

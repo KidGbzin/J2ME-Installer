@@ -5,12 +5,6 @@ import 'package:path_provider/path_provider.dart';
 
 /// This repository resposible to handle the Android device files.
 class Android {
-  Android._();
-
-  static final Android _instance = Android._();
-
-  factory Android() => _instance;
-
   /// The application's external directory.
   /// 
   /// This directory can be acessed by the user at Android folder on the file system.

@@ -3,21 +3,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
-import 'package:http/http.dart';
+import 'package:j2me_installer/application/core/repositories/storage_repository.dart';
 
 import '../../core/entities/game_entity.dart';
 
-import '../../core/enumerations/folder_enumeration.dart';
 import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/progress_enumeration.dart';
 import '../../core/enumerations/typographies_enumeration.dart';
 import '../../core/enumerations/view_type_enumeration.dart';
 
-import '../../core/repositories/android_repository.dart';
-
 import '../../core/repositories/database_repository.dart';
-import '../../core/services/github_service.dart';
+
+import '../../core/services/android_service.dart';
 
 import '../../widgets/button_widget.dart';
 import '../../widgets/tags_widget.dart';

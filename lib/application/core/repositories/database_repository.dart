@@ -14,12 +14,6 @@ import '../services/github_service.dart';
 /// 
 /// It is handled by the [Hive] package using boxes.
 class Database {
-  Database._();
-
-  static final Database _instance = Database._();
-
-  factory Database() => _instance;
-
   static late final DateTime lastCheck;
   static late final DateTime lastUpdated;
 
@@ -34,7 +28,7 @@ class Database {
   /// 
   /// `lastCheck`: When the API file was last checked; \
   /// `lastUpdated`: When the API bucket was last updated.
-  static late final Box<dynamic> settings;
+  static late final Box settings;
 
   /// Initialize the [Database].
   /// 

@@ -34,31 +34,4 @@ class _Controller {
       progress.value = Progress.error;
     }
   }
-
-  /// Get the cover image from device system as [File] using the game [title].
-  /// 
-  /// If the cache does not exist, then thies to fetch from GitHub API.
-  Future<File> getCover(String title) async {
-    File file = Android.read(
-      folder: Folder.covers.directory(),
-      name: '$title.png',
-    );
-    final bool exists = await file.exists();
-    if (exists) return file;
-    try {
-      final String source = Folder.covers.file(
-        file: "$title.png",
-      );
-      final Response response = await GitHub.fetch(source);
-      file = await Android.write(
-        bytes: response.bodyBytes,
-        folder: Folder.covers.directory(),
-        name: '$title.png',
-      );
-      return file;
-    }
-    catch (_) {
-      return file;
-    }
-  }
 }
