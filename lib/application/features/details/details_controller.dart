@@ -48,9 +48,23 @@ class _Controller {
     }
   }
 
-  Future<void> playStore() => Activity.playStore();
+  Future<void> openGitHub() async {
+    try {
+      await Activity.gitHub();
+    }
+    catch (error) {
+      Logger.error.log('$error');
+    }
+  }
 
-  Future<void> gitHub() => Activity.gitHub();
+  Future<void> openPlayStore() async {
+    try {
+      await Activity.playStore();
+    }
+    catch (error) {
+      Logger.error.log('$error');
+    }
+  }
 
   /// Discard the resourses used on the controller.
   void dispose() {

@@ -54,7 +54,7 @@ class _Dialog extends StatelessWidget {
             Expanded(
               child: _badge(
                 assetPath: 'assets/google-play-badge.png',
-                onTap: controller.playStore,
+                onTap: controller.openPlayStore,
               ),
             ),
             VerticalDivider(
@@ -67,7 +67,7 @@ class _Dialog extends StatelessWidget {
             Expanded(
               child: _badge(
                 assetPath: 'assets/github-badge.png',
-                onTap: controller.gitHub,
+                onTap: controller.openGitHub,
               ),
             ),
           ],
