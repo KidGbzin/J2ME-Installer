@@ -126,9 +126,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     child: GestureDetector(
-                      onTap: () {
-                        // TODO: Add a action here.
-                      },
+                      onTap: () => context.push('/jars/${game.title}'),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget> [

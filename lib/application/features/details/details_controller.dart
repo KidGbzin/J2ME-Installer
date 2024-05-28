@@ -2,7 +2,6 @@ part of '../details/details_handler.dart';
 
 /// The controller used to handle the [Details] state and data.
 class _Controller {
-
   _Controller(this.title);
 
   /// Self-explanatory, just the game's title.
@@ -43,7 +42,10 @@ class _Controller {
   /// 
   /// Return the cover audio as a [File] if exists.
   Future<File> getCover() async {
-    final File file = await Android.read('$title.png');
+    final File file = await Android.read(
+      folder: Folder.covers.directory(),
+      name:'$title.png',
+    );
     final bool exists = await file.exists();
     if (exists) return file;
     throw 'The game "$title" there\'s no cover cached.';
@@ -53,11 +55,21 @@ class _Controller {
   /// 
   /// Return the audio as a [File] if exists or throws an error.
   Future<File> getAudio() async {
-    final File file = await Android.read('$title.rtx');
+    final File file = await Android.read(
+      folder: Folder.audios.directory(),
+      name:'$title.rtx',
+    );
     final bool exists = await file.exists(); 
     if (exists) return file;
-    final Response response = await GitHub.get('$title.rtx');
-    return await Android.write(response.bodyBytes, '$title.rtx');
+    final String source = Folder.audios.file(
+      file: '$title.rtx',
+    );
+    final Response response = await GitHub.fetch(source);
+    return await Android.write(
+      bytes: response.bodyBytes,
+      folder: Folder.audios.directory(),
+      name: "$title.rtx"
+    );
   }
 
   /// Install the .JAR file into the J2ME Loader emulator.
@@ -74,14 +86,29 @@ class _Controller {
       final JAR jar = game.jars.firstWhere((element) => element.isComplete == true,
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
-      File file = await Android.read('$title/${jar.file}');
+      File file = Android.read(
+        folder: Folder.packages.directory(
+          subfolder: jar.title,
+        ),
+        name: jar.file,
+      );
       final bool exists = await file.exists();
       if (!exists) {
-        final Response response = await GitHub.get('$title/${jar.file}');
-        file = await Android.write(response.bodyBytes, '$title/${jar.file}');
+        final String source = Folder.packages.file(
+          file: jar.file,
+          subfolder: jar.title,
+        );
+        final Response response = await GitHub.fetch(source);
+        file = await Android.write(
+          bytes: response.bodyBytes,
+          folder: Folder.packages.directory(
+            subfolder: jar.title,
+          ),
+          name: jar.file,
+        );
       }
       await _install(file);
-    }    
+    }
     finally {
       isDownloading.value = false;
     }
@@ -115,7 +142,6 @@ class _Controller {
       Logger.error.log('$error');
       throw 'Could not open GitHub repository.';
     }
-    
   }
 
   /// Discard the resourses used on the controller.

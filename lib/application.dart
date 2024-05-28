@@ -6,6 +6,7 @@ import '../application/core/enumerations/palette_enumeration.dart';
 
 import '../application/features/details/details_handler.dart';
 import '../application/features/home/home_handler.dart';
+import '../application/features/jars/jars_handler.dart';
 
 /// The application's root.
 /// 
@@ -66,6 +67,10 @@ class _ApplicationState extends State<Application> {
       GoRoute(
         builder: (BuildContext context, GoRouterState state) => const Home(),
         path: '/home',
+      ),
+      GoRoute(
+        builder: (BuildContext context, GoRouterState state) => JARs(state.pathParameters['title']!),
+        path: '/jars/:title',
       ),
     ],
   );

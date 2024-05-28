@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 
 import '../../core/entities/game_entity.dart';
 
+import '../../core/enumerations/folder_enumeration.dart';
 import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/progress_enumeration.dart';

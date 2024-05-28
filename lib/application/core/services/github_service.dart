@@ -4,7 +4,7 @@ import '../enumerations/logger_enumeration.dart';
 
 /// The service resposible to fetch data from GitHub repository.
 /// 
-/// * You can check the GitHub API documentation here: https://docs.github.com/rest.
+/// You can check the GitHub API documentation here: https://docs.github.com/rest.
 class GitHub {
   GitHub._();
 
@@ -50,19 +50,5 @@ class GitHub {
       if (response.statusCode == 404) throw 'Sorry, unable to find the "$source" file.';
       throw 'Sorry, the server returned error ${response.statusCode}.';
     }
-  }
-
-  /// Get a raw file from the API using a [source].
-  /// 
-  /// The bucket stores files based on the extension type.
-  /// For example, a .PNG file is saved in the PNGs folder, a .RTX file is saved in the RTXs folder, and so on.
-  /// 
-  /// For .JAR files, there is a subfolder with the name of the game as "JARs/Gangstar - Crime City".
-  /// So remember to pass the name of the subfolder as well with the .JAR file.
-  static Future<http.Response> get(String source) async {
-    source = source.replaceAll(':', ' -'); // Replaces the ':' caracter to ' -', because is a forbidden caracter on file systems.
-    final String extension = source.split('.').last.toUpperCase();
-    final http.Response response = await GitHub.fetch('${extension}s/$source');
-    return response;
   }
 }

@@ -24,10 +24,9 @@ class _Controller {
   static Future<void> _initialize() async {
     view = ValueNotifier(ViewType.listView);
     progress = ValueNotifier(Progress.loading);
-    await Database.initialize();
     try {
       await Android.initialize();
-      
+      await Database.initialize();
       progress.value = Progress.finished;
     }
     catch (error) {
@@ -40,12 +39,22 @@ class _Controller {
   /// 
   /// If the cache does not exist, then thies to fetch from GitHub API.
   Future<File> getCover(String title) async {
-    File file = await Android.read('$title.png');
+    File file = Android.read(
+      folder: Folder.covers.directory(),
+      name: '$title.png',
+    );
     final bool exists = await file.exists();
     if (exists) return file;
     try {
-      final Response response = await GitHub.get('$title.png');
-      file = await Android.write(response.bodyBytes, '$title.png');
+      final String source = Folder.covers.file(
+        file: "$title.png",
+      );
+      final Response response = await GitHub.fetch(source);
+      file = await Android.write(
+        bytes: response.bodyBytes,
+        folder: Folder.covers.directory(),
+        name: '$title.png',
+      );
       return file;
     }
     catch (_) {

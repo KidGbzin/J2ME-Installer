@@ -1,6 +1,7 @@
 /// The entity responsible for the .JAR file information.
 class JAR {
   JAR({
+    required this.brand,
     required this.file,
     required this.isComplete,
     required this.isTouchscreen,
@@ -10,6 +11,8 @@ class JAR {
     required this.title,
     required this.version,
   });
+
+  final String brand;
 
   /// Is the name of the [JAR] file with the extension .JAR.
   final String file;
@@ -29,7 +32,7 @@ class JAR {
   /// It's the resolution of the game in pixels.
   final String resolution;
 
-  /// The package size in bytes.
+  /// The package size in kilobytes.
   final int size;
 
   /// Self-explanatory, just the game's title.
@@ -43,6 +46,7 @@ class JAR {
   /// The parameter [object] is the JSON dynamic object to be converted into a [JAR].
   factory JAR.fromJson(dynamic object) {
     return JAR(
+      brand: object['brand'] as String,
       file: object['file'] as String,
       isComplete: object['isComplete'] as bool,
       isTouchscreen: object['isTouchscreen'] as bool,
@@ -59,6 +63,7 @@ class JAR {
   /// This method is required to Hive write and read the object's data.
   Map<String, dynamic> toJson() {
     return <String, dynamic> {
+      'brand': brand,
       'file': file,
       'isComplete': isComplete,
       'isTouchscreen': isTouchscreen,

@@ -58,7 +58,7 @@ class Database {
     lastCheck = DateTime.tryParse(settings.get("lastCheck") ?? "") ?? DateTime(1970);
     lastUpdated = DateTime.tryParse(settings.get("lastUpdated") ?? "") ?? DateTime(1970);
 
-    _checkAPI();
+    await _checkAPI();
   }
 
   /// Fetch the API database and update the local database with it.
