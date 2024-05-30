@@ -1,4 +1,4 @@
-part of '../jars_handler.dart';
+part of '../midlets_handler.dart';
 
 class _Icon extends StatelessWidget {
   const _Icon(this.getIcon);

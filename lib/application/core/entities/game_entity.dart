@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import '../entities/jar_entity.dart';
+import 'midlet_entity.dart';
 
 /// The entity resposible for the game information.
 class Game {
   Game({
     required this.description,
-    required this.jars,
+    required this.midlets,
     required this.release,
     required this.tags,
     required this.title,
@@ -16,8 +16,8 @@ class Game {
   /// A brief piece of information about the game.
   final String? description;
 
-  /// A list of all [JAR] files available for this game.
-  final List<JAR> jars;
+  /// A list of all [MIDlet] files available for this game.
+  final List<MIDlet> midlets;
 
   /// The year the year when the game was released.
   final int release;
@@ -37,7 +37,7 @@ class Game {
   factory Game.fromJson(dynamic object) {
     return Game(
       description: object['description'] as String?,
-      jars: List<JAR>.from(object["jars"].map((element) => JAR.fromJson(element))),
+      midlets: List<MIDlet>.from(object["midlets"].map((element) => MIDlet.fromJson(element))),
       release: object['release'] as int,
       tags: List<String>.from(object["tags"].map((element) => element)),
       title: object['title'] as String,
@@ -45,13 +45,13 @@ class Game {
     );
   }
 
-  /// Export the [JAR] object to a JSON string.
+  /// Export the [MIDlet] object to a JSON string.
   /// 
   /// This method is required to Hive write and read the object's data.
   Map<String, dynamic> toJson() {
     return <String, dynamic> {
       'description': description,
-      'jars': jars.map((jar) => jar.toJson()).toList(),
+      'midlets': midlets.map((midlets) => midlets.toJson()).toList(),
       'release': release,
       'tags': tags,
       'title': title,

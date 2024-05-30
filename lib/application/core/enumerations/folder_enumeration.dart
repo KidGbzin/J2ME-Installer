@@ -2,7 +2,7 @@ enum Folder {
   audios("Audios"),
   covers("Covers"),
   icons("Icons"),
-  packages("Packages");
+  midlets("MIDlets");
 
   final String _root;
 
@@ -13,8 +13,8 @@ enum Folder {
     String? subfolder,
   }) {
     final String directory;
-    if (_root == Folder.packages._root) {
-      assert(subfolder != null, "Packages must have a subfolder declared!");
+    if (_root == Folder.midlets._root) {
+      assert(subfolder != null, "MIDlets must have a subfolder declared!");
       subfolder = subfolder!.replaceAll(":", " -");
       directory = "$_root/$subfolder/$file";
     }
@@ -29,8 +29,8 @@ enum Folder {
     String? subfolder,
   }) {
     final String directory;
-    if (_root == Folder.packages._root) {
-      assert(subfolder != null, "Packages must have a subfolder declared!");
+    if (_root == Folder.midlets._root) {
+      assert(subfolder != null, "MIDlets must have a subfolder declared!");
       subfolder = subfolder!.replaceAll(':', ' -');
       directory = "$_root/$subfolder";
     }

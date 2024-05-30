@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 import 'package:j2me_installer/application/core/repositories/storage_repository.dart';
 
 import '../../core/entities/game_entity.dart';
-import '../../core/entities/jar_entity.dart';
+import '../../core/entities/midlet_entity.dart';
 
 import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';

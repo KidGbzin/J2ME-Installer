@@ -9,7 +9,7 @@ class _Controller {
 
   /// The [isDownloading] listenable.
   /// 
-  /// Used in the [_PlayButton] component, it represents whether any [JAR] files are being downloaded.
+  /// Used in the [_PlayButton] component, it represents whether any [MIDlet] files are being downloaded.
   late final ValueNotifier<bool> isDownloading;
 
   /// The [progress] listenavle.
@@ -37,10 +37,10 @@ class _Controller {
   Future<void> openGame() async {
     isDownloading.value = true;
     try {
-      final JAR jar = game.jars.firstWhere((element) => element.isComplete == true,
+      final MIDlet jar = game.midlets.firstWhere((element) => element.isComplete == true,
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
-      final File file = await Storage.getPackage(jar);
+      final File file = await Storage.getMIDlet(jar);
       await Activity.emulator(file);
     }
     finally {

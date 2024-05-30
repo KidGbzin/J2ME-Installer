@@ -1,4 +1,4 @@
-part of '../jars_handler.dart';
+part of '../midlets_handler.dart';
 
 class _Tile extends StatelessWidget {
   const _Tile({
@@ -7,7 +7,7 @@ class _Tile extends StatelessWidget {
   });
 
   final _Controller controller;
-  final JAR jar;
+  final MIDlet jar;
 
   @override
   Widget build(BuildContext context) {

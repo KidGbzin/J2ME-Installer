@@ -1,13 +1,13 @@
-part of '../jars/jars_handler.dart';
+part of 'midlets_handler.dart';
 
 class _Controller {
   _Controller();
 
-  late final List<JAR> jars;
+  late final List<MIDlet> midlets;
 
   /// The [progress] listenavle.
   /// 
-  /// Used in the [JARs] handler, it represents the current state of the view when initialized.
+  /// Used in the [MIDlets] handler, it represents the current state of the view when initialized.
   late final ValueNotifier<Progress> progress;
 
   /// Initialize the controller and fetch the necessary data using a game [title].
@@ -16,11 +16,11 @@ class _Controller {
   void initialize(String title) {
     progress = ValueNotifier(Progress.loading);
     try {
-      jars = Database.games.get(title)!.jars;
+      midlets = Database.games.get(title)!.midlets;
       progress.value = Progress.finished;
     }
     catch (_) {
-      Logger.warning.log('JARs • Controller | Couldn\'t find "$title" in the local database.');
+      Logger.warning.log('MIDlets • Controller | Couldn\'t find "$title" in the local database.');
       progress.value = Progress.error;
     }
   }

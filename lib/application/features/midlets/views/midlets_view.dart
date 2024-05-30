@@ -1,7 +1,7 @@
-part of '../jars_handler.dart';
+part of '../midlets_handler.dart';
 
-class _JARs extends StatelessWidget {
-  const _JARs(this.controller);
+class _MIDlets extends StatelessWidget {
+  const _MIDlets(this.controller);
 
   final _Controller controller;
 
@@ -24,10 +24,10 @@ class _JARs extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return _Tile(
             controller: controller,
-            jar: controller.jars[index],
+            jar: controller.midlets[index],
           );
         },
-        itemCount: controller.jars.length,
+        itemCount: controller.midlets.length,
         padding: const EdgeInsets.all(15),
         separatorBuilder: (BuildContext context, int index) {
           return Divider(

@@ -6,7 +6,7 @@ import '../application/core/enumerations/palette_enumeration.dart';
 
 import '../application/features/details/details_handler.dart';
 import '../application/features/home/home_handler.dart';
-import '../application/features/jars/jars_handler.dart';
+import 'application/features/midlets/midlets_handler.dart';
 
 /// The application's root.
 /// 
@@ -69,7 +69,7 @@ class _ApplicationState extends State<Application> {
         path: '/home',
       ),
       GoRoute(
-        builder: (BuildContext context, GoRouterState state) => JARs(state.pathParameters['title']!),
+        builder: (BuildContext context, GoRouterState state) => MIDlets(state.pathParameters['title']!),
         path: '/jars/:title',
       ),
     ],

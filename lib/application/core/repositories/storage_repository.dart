@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 
-import '../entities/jar_entity.dart';
+import '../entities/midlet_entity.dart';
 
 import '../enumerations/folder_enumeration.dart';
 
@@ -75,26 +75,26 @@ class Storage {
     return file;
   }
 
-  static Future<File> getPackage(JAR jar) async {
+  static Future<File> getMIDlet(MIDlet midlet) async {
     File file = Android.read(
-      folder: Folder.packages.directory(
-        subfolder: jar.title,
+      folder: Folder.midlets.directory(
+        subfolder: midlet.title,
       ),
-      name: jar.file,
+      name: midlet.file,
     );
     final bool exists = await file.exists();
     if (exists) return file;
-    final String source = Folder.packages.file(
-      file: jar.file,
-      subfolder: jar.title,
+    final String source = Folder.midlets.file(
+      file: midlet.file,
+      subfolder: midlet.title,
     );
     final Response response = await GitHub.fetch(source);
     file = await Android.write(
       bytes: response.bodyBytes,
-      folder: Folder.packages.directory(
-        subfolder: jar.title,
+      folder: Folder.midlets.directory(
+        subfolder: midlet.title,
       ),
-      name: jar.file,
+      name: midlet.file,
     );
     return file;
   }

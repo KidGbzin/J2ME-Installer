@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/entities/jar_entity.dart';
+import '../../core/entities/midlet_entity.dart';
 
 import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
@@ -15,23 +15,23 @@ import '../../core/repositories/storage_repository.dart';
 
 import '../../widgets/button_widget.dart';
 
-part '../jars/components/icon_component.dart';
-part '../jars/components/tile_component.dart';
+part 'components/icon_component.dart';
+part 'components/tile_component.dart';
 
-part '../jars/views/jars_view.dart';
+part 'views/midlets_view.dart';
 
-part '../jars/jars_controller.dart';
+part 'midlets_controller.dart';
 
-class JARs extends StatefulWidget {
-  const JARs(this.title, {super.key});
+class MIDlets extends StatefulWidget {
+  const MIDlets(this.title, {super.key});
 
   final String title;
 
   @override
-  State<JARs> createState() => _JARsState();
+  State<MIDlets> createState() => _MIDletsState();
 }
 
-class _JARsState extends State<JARs> {
+class _MIDletsState extends State<MIDlets> {
   late _Controller controller;
 
   @override
@@ -52,7 +52,7 @@ class _JARsState extends State<JARs> {
           return const SizedBox();
         }
         else {
-          return _JARs(controller);
+          return _MIDlets(controller);
         }
       },
       valueListenable: controller.progress,

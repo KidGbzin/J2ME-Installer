@@ -43,11 +43,11 @@ class Database {
     games = Hive.box<Game>(
       maxSizeMiB: 5,
       name: 'DATABASE',
-    );
+    )..clear();
     settings = Hive.box<dynamic>(
       maxSizeMiB: 5,
       name: 'SETTINGS',
-    );
+    )..clear();
 
     lastCheck = DateTime.tryParse(settings.get("lastCheck") ?? "") ?? DateTime(1970);
     lastUpdated = DateTime.tryParse(settings.get("lastUpdated") ?? "") ?? DateTime(1970);

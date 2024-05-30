@@ -1,6 +1,6 @@
 /// The entity responsible for the .JAR file information.
-class JAR {
-  JAR({
+class MIDlet {
+  MIDlet({
     required this.brand,
     required this.file,
     required this.isComplete,
@@ -14,19 +14,19 @@ class JAR {
 
   final String brand;
 
-  /// Is the name of the [JAR] file with the extension .JAR.
+  /// Is the name of the [MIDlet] file with the extension .JAR.
   final String file;
 
   /// In J2ME a single game can have various versions depending on the device.
   /// This version can totally change the game, some have some cut levels or changes between 3D to 2D.
-  /// So this boolean says this [JAR] is a full version of the game, usually a Sony Ericsson device.
-  /// Only one file per game is a complete [JAR].
+  /// So this boolean says this [MIDlet] is a full version of the game, usually a Sony Ericsson device.
+  /// Only one file per game is a complete [MIDlet].
   final bool isComplete;
 
-  /// A boolean to show if the [JAR] supports touchscreen input.
+  /// A boolean to show if the [MIDlet] supports touchscreen input.
   final bool isTouchscreen;
 
-  /// A list of all languages codes supported from the [JAR] file.
+  /// A list of all languages codes supported from the [MIDlet] file.
   final List<String> languages;
 
   /// It's the resolution of the game in pixels.
@@ -38,14 +38,14 @@ class JAR {
   /// Self-explanatory, just the game's title.
   final String title;
 
-  /// The [JAR] release version.
+  /// The [MIDlet] release version.
   final String version;
 
-  /// Convert a JSON into a [JAR] object.
+  /// Convert a JSON into a [MIDlet] object.
   /// 
-  /// The parameter [object] is the JSON dynamic object to be converted into a [JAR].
-  factory JAR.fromJson(dynamic object) {
-    return JAR(
+  /// The parameter [object] is the JSON dynamic object to be converted into a [MIDlet].
+  factory MIDlet.fromJson(dynamic object) {
+    return MIDlet(
       brand: object['brand'] as String,
       file: object['file'] as String,
       isComplete: object['isComplete'] as bool,
@@ -58,7 +58,7 @@ class JAR {
     );
   }
 
-  /// Export the [JAR] object to a JSON string.
+  /// Export the [MIDlet] object to a JSON string.
   /// 
   /// This method is required to Hive write and read the object's data.
   Map<String, dynamic> toJson() {
