@@ -28,8 +28,7 @@ class _Cover extends StatelessWidget {
   Widget _coverImage(File file) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        boxShadow: kElevationToShadow[3],
+        borderRadius: BorderRadius.circular(7.5),
         color: Palette.foreground.color,
         image: DecorationImage(
           fit: BoxFit.contain,

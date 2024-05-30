@@ -11,20 +11,16 @@ import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/progress_enumeration.dart';
 import '../../core/enumerations/typographies_enumeration.dart';
-import '../../core/enumerations/view_type_enumeration.dart';
 
 import '../../core/repositories/database_repository.dart';
 
 import '../../core/services/android_service.dart';
 
-import '../../widgets/button_widget.dart';
 import '../../widgets/tags_widget.dart';
 
 part '../home/components/cover_component.dart';
-part '../home/components/grid_view_component.dart';
-part '../home/components/list_view_component.dart';
+part 'components/lister_component.dart';
 part '../home/components/list_tile_component.dart';
-part '../home/components/toggle_button_component.dart';
 
 part '../home/views/error_view.dart';
 part '../home/views/loading_view.dart';

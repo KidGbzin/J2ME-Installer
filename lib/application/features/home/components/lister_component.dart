@@ -1,8 +1,7 @@
 part of '../home_handler.dart';
 
-class _ListView extends StatelessWidget {
-
-  const _ListView({
+class _Lister extends StatelessWidget {
+  const _Lister({
     required this.controller,
     required this.collection,
   });
@@ -21,9 +20,10 @@ class _ListView extends StatelessWidget {
         );
       },
       itemCount: Database.games.length,
+      padding: const EdgeInsets.all(0),
       separatorBuilder: (BuildContext context, int index) {
         return Divider(
-          color: Palette.transparent.color,
+          color: Palette.divider.color,
           height: 1,
           thickness: 1,
         );

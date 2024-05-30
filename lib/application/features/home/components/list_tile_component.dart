@@ -9,8 +9,7 @@ class _Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 155,
-      padding: const EdgeInsets.all(15),
+      margin: const EdgeInsets.all(15),
       width: double.infinity,
       child: Row(
         children: <Widget> [
@@ -20,29 +19,35 @@ class _Tile extends StatelessWidget {
             child: _Cover(Storage.getCover(game.title)),
           ),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget> [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  child: Text(
-                    game.title,
-                    style: Typographies.tile(Palette.elements).style,
+            child: SizedBox(
+              height: 120,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget> [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    child: Text(
+                      game.title,
+                      style: Typographies.tile(Palette.elements).style,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 5, 15, 7.5),
-                  child: Text(
-                    "${game.release} • ${game.vendor}",
-                    style: Typographies.body(Palette.grey).style,
-                    textAlign: TextAlign.start,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 7.5),
+                    child: Text(
+                      "${game.description}",
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Typographies.body(Palette.grey).style,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  child: Tags(game.tags),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    child: Tags(game.tags),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
