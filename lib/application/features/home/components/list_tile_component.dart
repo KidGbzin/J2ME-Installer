@@ -1,57 +1,70 @@
 part of '../home_handler.dart';
 
 class _Tile extends StatelessWidget {
-  final Game game;
-  final _Controller controller;
+  const _Tile({
+    required this.controller,
+    required this.game,
+  });
 
-  const _Tile(this.game, this.controller);
+  final _Controller controller;
+  final Game game;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(15),
-      width: double.infinity,
+      height: 165,
+      padding: const EdgeInsets.all(15),
+      width: MediaQuery.sizeOf(context).width,
       child: Row(
         children: <Widget> [
-          SizedBox(
-            height: 120,
-            width: 120 * 0.75,
-            child: _Cover(Storage.getCover(game.title)),
-          ),
+          _leading(),
           Expanded(
-            child: SizedBox(
-              height: 120,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget> [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    child: Text(
-                      game.title,
-                      style: Typographies.tile(Palette.elements).style,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 7.5),
-                    child: Text(
-                      "${game.description}",
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Typographies.body(Palette.grey).style,
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    child: Tags(game.tags),
-                  ),
-                ],
-              ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+              child: _body(),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _leading() {
+    return SizedBox(
+      height: 115 + 20,
+      width: 115 * 0.75,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget> [
+          _Cover(getCover: controller.getGameCover(game.title)),
+          const _Grade(),
+          
+        ],
+      ),
+    );
+  }
+
+  Widget _body() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget> [
+        Text(
+          game.title.toUpperCase(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Typographies.tile(Palette.elements).style,
+          textAlign: TextAlign.start,
+        ),
+        Text(
+          game.description ?? "",
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
+          style: Typographies.body(Palette.grey).style,
+        ),
+        Tags(game.tags),
+      ],
     );
   }
 }

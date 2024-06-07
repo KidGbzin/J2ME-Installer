@@ -13,15 +13,15 @@ class Typographies {
   const Typographies._internal(this.style);
 
   factory Typographies.body(Palette palette) {
-    return Typographies._internal(GoogleFonts.rajdhani(
+    return Typographies._internal(GoogleFonts.barlow(
       color: palette.color,
       fontSize: 13,
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.w300,
     ));
   }
 
-  factory Typographies.label(Palette palette) {
-    return Typographies._internal(GoogleFonts.rajdhani(
+  factory Typographies.a(Palette palette) {
+    return Typographies._internal(GoogleFonts.barlow(
       color: palette.color,
       fontSize: 13,
       fontWeight: FontWeight.w500,
@@ -29,18 +29,19 @@ class Typographies {
   }
 
   factory Typographies.tile(Palette palette) {
-    return Typographies._internal(GoogleFonts.rajdhani(
+    return Typographies._internal(GoogleFonts.barlow(
       color: palette.color,
-      fontSize: 15,
-      fontWeight: FontWeight.w600,
+      fontSize: 14,
+      fontWeight: FontWeight.w800,
+      height: 1,
     ));
   }
 
   factory Typographies.header(Palette palette) {
-    return Typographies._internal(GoogleFonts.rajdhani(
+    return Typographies._internal(GoogleFonts.barlow(
       color: palette.color,
       fontSize: 18,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w800,
     ));
   }
 }

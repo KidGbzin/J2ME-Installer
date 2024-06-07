@@ -3,7 +3,9 @@ part of '../home_handler.dart';
 class _Cover extends StatelessWidget {
   final Future<File>? getCover;
 
-  const _Cover(this.getCover);
+  const _Cover({
+    required this.getCover,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class _Cover extends StatelessWidget {
         }
         else if (cover.hasError) {
           // TODO: Make a placeholder on error!
-          return const Placeholder();
+          return const SizedBox.shrink();
         }
         else {
           // TODO: Make a loading widget.
@@ -26,14 +28,21 @@ class _Cover extends StatelessWidget {
   }
 
   Widget _coverImage(File file) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7.5),
-        color: Palette.foreground.color,
-        image: DecorationImage(
-          fit: BoxFit.contain,
-          filterQuality: FilterQuality.none,
-          image: FileImage(file),
+    return AspectRatio(
+      aspectRatio: 0.75,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Palette.divider.color,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          color: Palette.foreground.color,
+          image: DecorationImage(
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.none,
+            image: FileImage(file),
+          ),
         ),
       ),
     );

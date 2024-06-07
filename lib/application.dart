@@ -6,7 +6,8 @@ import '../application/core/enumerations/palette_enumeration.dart';
 
 import '../application/features/details/details_handler.dart';
 import '../application/features/home/home_handler.dart';
-import 'application/features/midlets/midlets_handler.dart';
+import '../application/features/launcher/launcher_handler.dart';
+import '../application/features/midlets/midlets_handler.dart';
 
 /// The application's root.
 /// 
@@ -58,7 +59,7 @@ class _ApplicationState extends State<Application> {
   /// When redirecting a view never use the default navigator, always use this router from [GoRouter] navigator.
   /// Check the architecture document for more information.
   final GoRouter _router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/launcher',
     routes: <RouteBase> [
       GoRoute(
         builder: (BuildContext context, GoRouterState state) => Details(state.pathParameters['title']!),
@@ -67,6 +68,10 @@ class _ApplicationState extends State<Application> {
       GoRoute(
         builder: (BuildContext context, GoRouterState state) => const Home(),
         path: '/home',
+      ),
+      GoRoute(
+        builder: (BuildContext context, GoRouterState state) => const Launcher(),
+        path: '/launcher',
       ),
       GoRoute(
         builder: (BuildContext context, GoRouterState state) => MIDlets(state.pathParameters['title']!),

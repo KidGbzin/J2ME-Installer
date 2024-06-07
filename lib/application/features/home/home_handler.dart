@@ -1,29 +1,29 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
-import 'package:j2me_installer/application/core/repositories/storage_repository.dart';
+import 'package:j2me_installer/application/core/enumerations/typographies_enumeration.dart';
+import 'package:j2me_installer/application/widgets/button_widget.dart';
+import 'package:j2me_installer/application/widgets/tags_widget.dart';
 
 import '../../core/entities/game_entity.dart';
 
 import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/progress_enumeration.dart';
-import '../../core/enumerations/typographies_enumeration.dart';
 
 import '../../core/repositories/database_repository.dart';
 
-import '../../core/services/android_service.dart';
-
-import '../../widgets/tags_widget.dart';
+import '../../core/repositories/storage_repository.dart';
 
 part '../home/components/cover_component.dart';
-part 'components/lister_component.dart';
+part '../home/components/grade_component.dart';
+part '../home/components/lister_component.dart';
 part '../home/components/list_tile_component.dart';
 
-part '../home/views/error_view.dart';
-part '../home/views/loading_view.dart';
 part '../home/views/home_view.dart';
 
 part '../home/home_controller.dart';
@@ -40,26 +40,33 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    controller = _Controller();
+    controller = _Controller()..initialize();
 
     super.initState();
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      builder: (BuildContext context, value, Widget? _) {
-        if (value == Progress.loading) {
-          return const _Loading();
+      builder: (BuildContext context, Progress progress, Widget? _) {
+        if (progress == Progress.loading) {
+          return const SizedBox.shrink();
         }
-        else if (value == Progress.error) {
-          return const _Error();
+        else if (progress == Progress.finished) {
+          return _Home(controller);
         }
         else {
-          return _View(controller);
+          return const SizedBox.shrink();
         }
       },
-      valueListenable: controller.progressState,
+      valueListenable: controller.progress,
     );
   }
 }

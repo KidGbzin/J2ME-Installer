@@ -1,15 +1,15 @@
 part of '../home_handler.dart';
 
-class _View extends StatefulWidget {
-  const _View(this.controller);
+class _Home extends StatefulWidget {
+  const _Home(this.controller);
 
   final _Controller controller;
 
   @override
-  State<_View> createState() => _ViewState();
+  State<_Home> createState() => __HomeState();
 }
 
-class _ViewState extends State<_View> {
+class __HomeState extends State<_Home> {
 
   @override
   void initState() {
@@ -25,14 +25,18 @@ class _ViewState extends State<_View> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           children: <Widget> [
+            Button(
+              icon: Icons.search_rounded,
+              onTap: () {},
+            ),
           ],
         ),
       ),
       body: _Lister(
-        collection: Database.games,
         controller: widget.controller,
       ),
     );

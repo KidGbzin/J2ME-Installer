@@ -51,7 +51,7 @@ class Tags extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             tag,
-            style: Typographies.label(Palette.elements).style,
+            style: Typographies.a(Palette.elements).style,
           ),
         ),
       ),
