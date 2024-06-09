@@ -19,7 +19,6 @@ import '../../core/repositories/database_repository.dart';
 
 import '../../core/services/activity_service.dart';
 import '../../widgets/button_widget.dart';
-import '../../widgets/tags_widget.dart';
 
 part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';

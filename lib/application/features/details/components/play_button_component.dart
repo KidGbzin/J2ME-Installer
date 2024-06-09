@@ -19,7 +19,7 @@ class _PlayButton extends StatelessWidget {
           border: Border.all(
             color: Palette.primary.color.withOpacity(0.33),
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(7.5),
           color: Palette.primary.color.withOpacity(0.33),
         ),
         height: 40,

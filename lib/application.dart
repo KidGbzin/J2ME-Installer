@@ -7,7 +7,6 @@ import '../application/core/enumerations/palette_enumeration.dart';
 import '../application/features/details/details_handler.dart';
 import '../application/features/home/home_handler.dart';
 import '../application/features/launcher/launcher_handler.dart';
-import '../application/features/midlets/midlets_handler.dart';
 
 /// The application's root.
 /// 
@@ -72,10 +71,6 @@ class _ApplicationState extends State<Application> {
       GoRoute(
         builder: (BuildContext context, GoRouterState state) => const Launcher(),
         path: '/launcher',
-      ),
-      GoRoute(
-        builder: (BuildContext context, GoRouterState state) => MIDlets(state.pathParameters['title']!),
-        path: '/jars/:title',
       ),
     ],
   );
