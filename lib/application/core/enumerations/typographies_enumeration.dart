@@ -15,33 +15,45 @@ class Typographies {
   factory Typographies.body(Palette palette) {
     return Typographies._internal(GoogleFonts.rajdhani(
       color: palette.color,
-      fontSize: 13,
+      fontSize: 13.5,
       fontWeight: FontWeight.normal,
     ));
   }
 
-  factory Typographies.a(Palette palette) {
+  factory Typographies.tags(Palette palette) {
     return Typographies._internal(GoogleFonts.rajdhani(
       color: palette.color,
-      fontSize: 13,
+      fontSize: 13.5,
       fontWeight: FontWeight.w500,
     ));
   }
 
-  factory Typographies.tile(Palette palette) {
+  factory Typographies.category(Palette palette) {
     return Typographies._internal(GoogleFonts.rajdhani(
       color: palette.color,
-      fontSize: 14,
-      fontWeight: FontWeight.w700,
+      fontSize: 15.5,
+      fontWeight: FontWeight.w600,
       height: 1,
+      letterSpacing: 1.25,
     ));
   }
 
   factory Typographies.header(Palette palette) {
     return Typographies._internal(GoogleFonts.rajdhani(
       color: palette.color,
-      fontSize: 18,
-      fontWeight: FontWeight.w800,
+      fontSize: 17.5,
+      fontWeight: FontWeight.w800
+      ,
+      height: 1,
+      letterSpacing: 1.25,
+    ));
+  }
+
+  factory Typographies.tile(Palette palette) {
+    return Typographies._internal(GoogleFonts.rajdhani(
+      color: palette.color,
+      fontSize: 13.5,
+      fontWeight: FontWeight.w700,
       height: 1,
     ));
   }

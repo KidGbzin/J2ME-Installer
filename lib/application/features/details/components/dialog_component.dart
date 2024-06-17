@@ -24,7 +24,7 @@ class _Dialog extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
             child: Text(
               "J2ME Emulator not found!",
-              style: Typographies.header(Palette.elements).style,
+              style: Typographies.category(Palette.elements).style,
             ),
           ),
           Padding(

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:j2me_installer/application/core/repositories/storage_repository.dart';
+import 'package:j2me_installer/application/widgets/tags_widget.dart';
 
 import '../../core/entities/game_entity.dart';
 import '../../core/entities/midlet_entity.dart';
@@ -24,6 +25,7 @@ part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';
 part '../details/components/divider_component.dart';
 part '../details/components/play_button_component.dart';
+part '../details/components/screenshots_component.dart';
 
 part '../details/views/details_view.dart';
 

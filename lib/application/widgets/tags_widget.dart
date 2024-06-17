@@ -43,7 +43,7 @@ class Tags extends StatelessWidget {
             width: 1,
           ),
           borderRadius: BorderRadius.circular(10),
-          color: Palette.primary.color.withOpacity(0.33),
+          color: Palette.primary.color.withOpacity(0.10),
         ),
         height: 27.5,
         padding: const EdgeInsets.fromLTRB(7.5, 0, 7.5, 0),
@@ -51,7 +51,7 @@ class Tags extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             tag,
-            style: Typographies.a(Palette.elements).style,
+            style: Typographies.tags(Palette.primary2).style,
           ),
         ),
       ),

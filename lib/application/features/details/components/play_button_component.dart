@@ -19,7 +19,7 @@ class _PlayButton extends StatelessWidget {
           border: Border.all(
             color: Palette.primary.color.withOpacity(0.33),
           ),
-          borderRadius: BorderRadius.circular(7.5),
+          borderRadius: BorderRadius.circular(15),
           color: Palette.primary.color.withOpacity(0.33),
         ),
         height: 40,
@@ -89,7 +89,7 @@ class _PlayButton extends StatelessWidget {
         Expanded(
           child: Text(
             "Play Game",
-            style: Typographies.tile(Palette.elements).style,
+            style: Typographies.category(Palette.elements).style,
             textAlign: TextAlign.center,
           ),
         ),
