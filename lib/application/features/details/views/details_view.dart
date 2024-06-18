@@ -69,26 +69,34 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Palette.transparent.color,
+        bottom: PreferredSize(
+          preferredSize: const Size(double.infinity, 40),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+            child: Text(
+              game.title.toUpperCase(),
+              style: Typographies.category(Palette.elements).style,
+            ),
+          ),
+        ),
         surfaceTintColor: Palette.transparent.color,
-        shape: const Border(),
         title: Row(
           children: <Widget> [
-            Button.shadow(
-              icon: Icons.arrow_back_ios_rounded,
+            Button(
+              icon: Icons.arrow_back_rounded,
               onTap: context.pop,
             ),
             const Spacer(),
-            Button.shadow(
-              icon: Icons.favorite_border_rounded,
+            Button(
+              icon: Icons.bookmark_border_rounded,
               onTap: () {},
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(7.5, 0, 0, 0),
-              child: Button.shadow(
+              child: Button(
                 icon: Icons.share_rounded,
                 onTap: () {},
               ),
@@ -103,57 +111,10 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
             getCover: Storage.getCover(widget.controller.game.title),
           ),
           const _Divider(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
-            child: Text(
-              game.title.toUpperCase().replaceAll(':', ' -'),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Typographies.header(Palette.elements).style,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 25),
-            child: Text(
-              '${game.release} • ${game.vendor}',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Typographies.body(Palette.grey).style,
-            ),
-          ),
+          _About(game.description ?? ''),
           const _Divider(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
-            child: Text(
-              "About".toUpperCase(),
-              style: Typographies.category(Palette.elements).style,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 25),
-            child: Text(
-              game.description ?? '',
-              style: Typographies.body(Palette.grey).style,
-            ),
-          ),
-
+          const _Preview(),
           const _Divider(),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
-            child: Text(
-              'Preview'.toUpperCase(),
-              style: Typographies.category(Palette.elements).style,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: Text(
-              "The game's characteristics and screenshots may vary according to the model of your phone.",
-              style: Typographies.body(Palette.grey).style,
-            ),
-          ),
-          const _Screenshots(),
         ],
       ),
     );

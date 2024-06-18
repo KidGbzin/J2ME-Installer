@@ -52,8 +52,8 @@ class Typographies {
   factory Typographies.tile(Palette palette) {
     return Typographies._internal(GoogleFonts.rajdhani(
       color: palette.color,
-      fontSize: 13.5,
-      fontWeight: FontWeight.w700,
+      fontSize: 14.5,
+      fontWeight: FontWeight.w600,
       height: 1,
     ));
   }

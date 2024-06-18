@@ -10,21 +10,13 @@ class Button extends StatelessWidget {
     required this.icon,
     required this.onTap,
     super.key,
-  }) : color = Palette.transparent.color;
-
-  Button.shadow({
-    required this.icon,
-    required this.onTap,
-    super.key,
-  }) : color = Palette.background.color.withOpacity(0.33);
+  });
 
   /// A material icon from the Flutter SDK.
   final IconData icon;
 
   /// An function to be executed when [Button] is tapped.
   final Function() onTap;
-
-  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +25,7 @@ class Button extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.5),
-          color: color,
+          color: Palette.transparent.color,
         ),
         height: 37.5,
         width: 37.5,
