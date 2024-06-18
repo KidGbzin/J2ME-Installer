@@ -16,7 +16,8 @@ class _Controller {
       if (!context.mounted) return;
       context.pushReplacement('/home');
     }
-    catch (_) {
+    catch (error) {
+      Logger.error.log('$error');
       progress.value = Progress.error;
     }
   }

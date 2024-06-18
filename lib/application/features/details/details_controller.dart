@@ -12,6 +12,8 @@ class _Controller {
   /// Used in the [_PlayButton] component, it represents whether any [MIDlet] files are being downloaded.
   late final ValueNotifier<bool> isDownloading;
 
+  late final ValueNotifier<bool> isFavorite;
+
   /// The [progress] listenavle.
   /// 
   /// Used in the [Details] handler, it represents the current state of the view when initialized.
@@ -25,6 +27,7 @@ class _Controller {
     progress = ValueNotifier(Progress.loading);
     try {
       game = Database.games.get(title)!;
+      isFavorite = ValueNotifier(Database.isFavorite(game));
       progress.value = Progress.finished;
     }
     catch (_) {
@@ -70,5 +73,15 @@ class _Controller {
   void dispose() {
     isDownloading.dispose();
     progress.dispose();
+  }
+
+  void bookmark() {
+    if (isFavorite.value) {
+      Database.removeFavorite(game);
+    }
+    else {
+      Database.putFavorite(game);
+    }
+    isFavorite.value = !isFavorite.value;
   }
 }

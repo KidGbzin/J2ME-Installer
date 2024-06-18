@@ -71,18 +71,16 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Palette.transparent.color,
         bottom: PreferredSize(
           preferredSize: const Size(double.infinity, 40),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
             child: Text(
               game.title.toUpperCase(),
-              style: Typographies.category(Palette.elements).style,
+              style: Typographies.header(Palette.elements).style,
             ),
           ),
         ),
-        surfaceTintColor: Palette.transparent.color,
         title: Row(
           children: <Widget> [
             Button(
@@ -90,10 +88,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
               onTap: context.pop,
             ),
             const Spacer(),
-            Button(
-              icon: Icons.bookmark_border_rounded,
-              onTap: () {},
-            ),
+            _bookmarkButton(),
             Padding(
               padding: const EdgeInsets.fromLTRB(7.5, 0, 0, 0),
               child: Button(
@@ -110,13 +105,42 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
           _Cover(
             getCover: Storage.getCover(widget.controller.game.title),
           ),
-          const _Divider(),
+          _divider(),
           _About(game.description ?? ''),
-          const _Divider(),
+          _divider(),
           const _Preview(),
-          const _Divider(),
+          _divider(),
         ],
       ),
+    );
+  }
+
+  Widget _divider() {
+    return Divider(
+      color: Palette.divider.color,
+      height: 1,
+      thickness: 1,
+    );
+  }
+
+  Widget _bookmarkButton() {
+    return ValueListenableBuilder(
+      builder: (BuildContext context, bool isFavorite, Widget? _) {
+        late IconData icon;
+        if (isFavorite) {
+          icon = Icons.bookmark_rounded;
+        }
+        else {
+          icon = Icons.bookmark_outline_rounded;
+        }
+        return Button(
+          icon: icon,
+          onTap: () {
+            widget.controller.bookmark();
+          },
+        );
+      },
+      valueListenable: widget.controller.isFavorite,
     );
   }
 }

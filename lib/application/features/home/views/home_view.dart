@@ -25,20 +25,19 @@ class __HomeState extends State<_Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget> [
-            Button(
-              icon: Icons.search_rounded,
-              onTap: () {},
+            Text(
+              "MIDlet Store",
+              style: Typographies.header(Palette.elements).style,
             ),
           ],
         ),
       ),
-      body: _Lister(
-        controller: widget.controller,
-      ),
+      body: _Lister(controller: widget.controller),
     );
   }
 }

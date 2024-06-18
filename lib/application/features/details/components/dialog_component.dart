@@ -34,7 +34,7 @@ class _Dialog extends StatelessWidget {
               style: Typographies.body(Palette.elements).style,
             ),
           ),
-          const _Divider(),
+          
           _footer(),
         ],
       ),

@@ -24,7 +24,6 @@ part '../details/components/about_section_component.dart';
 part '../details/components/collection_section_component.dart';
 part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';
-part '../details/components/divider_component.dart';
 part '../details/components/play_button_component.dart';
 part 'components/preview_section_component.dart';
 

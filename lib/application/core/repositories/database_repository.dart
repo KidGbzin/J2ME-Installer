@@ -22,6 +22,8 @@ class Database {
   /// Stores the entire list of games.
   static late final Box<Game> games;
 
+  static late final Box<Game> favorites;
+
   /// The local configuration [Box].
   /// 
   /// All cached settings will be stored here. This [Box] includes:
@@ -43,6 +45,10 @@ class Database {
     games = Hive.box<Game>(
       maxSizeMiB: 5,
       name: 'DATABASE',
+    );
+    favorites = Hive.box<Game>(
+      maxSizeMiB: 5,
+      name: 'FAVORITES',
     );
     settings = Hive.box<dynamic>(
       maxSizeMiB: 5,
@@ -91,4 +97,10 @@ class Database {
     }
     settings.put('lastCheck', "${DateTime.now()}");
   }
+
+  static void putFavorite(Game game) => favorites.put(game.title, game);
+
+  static bool removeFavorite(Game game) => favorites.delete(game.title);
+
+  static bool isFavorite(Game game) => favorites.containsKey(game.title);
 }

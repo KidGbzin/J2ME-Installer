@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:j2me_installer/application/core/enumerations/logger_enumeration.dart';
 import 'package:j2me_installer/application/core/services/android_service.dart';
 
 import '../../core/enumerations/palette_enumeration.dart';
@@ -45,7 +46,7 @@ class _LauncherState extends State<Launcher> {
           return const _Launcher();
         }
         else {
-          return const SizedBox.shrink();
+          return const Text('Launcger error');
         }
       },
       valueListenable: controller.progress,

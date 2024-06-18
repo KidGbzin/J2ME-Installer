@@ -1,12 +1,9 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:j2me_installer/application/core/enumerations/typographies_enumeration.dart';
-import 'package:j2me_installer/application/widgets/button_widget.dart';
 import 'package:j2me_installer/application/widgets/tags_widget.dart';
 
 import '../../core/entities/game_entity.dart';
