@@ -21,10 +21,12 @@ import '../../core/services/activity_service.dart';
 import '../../widgets/button_widget.dart';
 
 part '../details/components/about_section_component.dart';
+part '../details/components/bookmark_button_component.dart';
 part '../details/components/collection_section_component.dart';
 part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';
 part '../details/components/play_button_component.dart';
+part '../details/components/screenshot_component.dart';
 part 'components/preview_section_component.dart';
 
 part '../details/views/details_view.dart';

@@ -71,16 +71,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        bottom: PreferredSize(
-          preferredSize: const Size(double.infinity, 40),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-            child: Text(
-              game.title.toUpperCase(),
-              style: Typographies.header(Palette.elements).style,
-            ),
-          ),
-        ),
+        
         title: Row(
           children: <Widget> [
             Button(
@@ -88,12 +79,10 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
               onTap: context.pop,
             ),
             const Spacer(),
-            _bookmarkButton(),
             Padding(
               padding: const EdgeInsets.fromLTRB(7.5, 0, 0, 0),
-              child: Button(
-                icon: Icons.share_rounded,
-                onTap: () {},
+              child: _Bookmark(
+                controller: widget.controller,
               ),
             ),
           ],
@@ -102,13 +91,31 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
       body: ListView(
         padding: EdgeInsets.zero,
         children: <Widget> [
-          _Cover(
-            getCover: Storage.getCover(widget.controller.game.title),
+          Padding(
+            padding: const EdgeInsets.all(0),
+            child: _Cover(
+              getCover: Storage.getCover(widget.controller.game.title),
+            ),
           ),
           _divider(),
           _About(game.description ?? ''),
           _divider(),
-          const _Preview(),
+          FutureBuilder(
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return _Preview(
+                  previews: snapshot.data!,
+                );
+              }
+              else if (snapshot.hasError) {
+                return Container(color: Colors.red);
+              }
+              else {
+                return Container(color: Colors.transparent);
+              }
+            },
+            future: Storage.getScreenshots(game.title),
+          ),
           _divider(),
         ],
       ),
@@ -120,27 +127,6 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
       color: Palette.divider.color,
       height: 1,
       thickness: 1,
-    );
-  }
-
-  Widget _bookmarkButton() {
-    return ValueListenableBuilder(
-      builder: (BuildContext context, bool isFavorite, Widget? _) {
-        late IconData icon;
-        if (isFavorite) {
-          icon = Icons.bookmark_rounded;
-        }
-        else {
-          icon = Icons.bookmark_outline_rounded;
-        }
-        return Button(
-          icon: icon,
-          onTap: () {
-            widget.controller.bookmark();
-          },
-        );
-      },
-      valueListenable: widget.controller.isFavorite,
     );
   }
 }

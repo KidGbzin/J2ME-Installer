@@ -6,7 +6,7 @@ import '../core/enumerations/palette_enumeration.dart';
 /// 
 /// This button is used everywhere in the application.
 class Button extends StatelessWidget {
-  Button({
+  const Button({
     required this.icon,
     required this.onTap,
     super.key,
@@ -22,6 +22,7 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.5),

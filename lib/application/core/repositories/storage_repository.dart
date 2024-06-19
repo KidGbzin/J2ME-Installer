@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:archive/archive.dart';
 import 'package:http/http.dart';
 
 import '../entities/midlet_entity.dart';
@@ -97,5 +99,35 @@ class Storage {
       name: midlet.file,
     );
     return file;
+  }
+
+  static Future<List<Uint8List>> getScreenshots(String title) async {
+    File file = Android.read(
+      folder: Folder.screenshots.directory(),
+      name: '$title.zip',
+    );
+    final bool exists = await file.exists();
+    if (exists) return _extract(file);
+    final String source = Folder.screenshots.file(
+      file: '$title.zip',
+    );
+    final Response response = await GitHub.fetch(source);
+    file = await Android.write(
+      bytes: response.bodyBytes,
+      folder: Folder.screenshots.directory(),
+      name: '$title.zip',
+    );
+    
+    return _extract(file);
+  }
+
+  static List<Uint8List> _extract(File package) {
+    final List<Uint8List> temporary = <Uint8List> [];
+    final Uint8List bytes = package.readAsBytesSync();
+    final Archive archive = ZipDecoder().decodeBytes(bytes);
+    for (ArchiveFile index in archive) {
+      temporary.add(index.content as Uint8List);
+    }
+    return temporary;
   }
 }

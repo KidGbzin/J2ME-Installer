@@ -15,11 +15,7 @@ class _Cover extends StatelessWidget {
       child: FutureBuilder(
         builder: (BuildContext context, AsyncSnapshot<File> cover) {
           if (cover.hasData) {
-            return Image.file(
-              cover.data!,
-              filterQuality: FilterQuality.none,
-              fit: BoxFit.contain,
-            );
+            return _thumbnail(cover.data!);
           }
           else if (cover.hasError) {
             return const Placeholder();
@@ -29,6 +25,23 @@ class _Cover extends StatelessWidget {
           }
         },
         future: getCover,
+      ),
+    );
+  }
+
+  Widget _thumbnail(File file) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Palette.divider.color,
+          width: 0,
+        ),
+        borderRadius: BorderRadius.circular(0),
+        image: DecorationImage(
+          filterQuality: FilterQuality.none,
+          fit: BoxFit.contain,
+          image: FileImage(file),
+        ),
       ),
     );
   }

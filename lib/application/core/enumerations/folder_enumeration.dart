@@ -2,7 +2,8 @@ enum Folder {
   audios("Audios"),
   covers("Covers"),
   icons("Icons"),
-  midlets("MIDlets");
+  midlets("MIDlets"),
+  screenshots("Screenshots");
 
   final String _root;
 

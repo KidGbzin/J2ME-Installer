@@ -14,7 +14,7 @@ class _Controller {
 
   late final ValueNotifier<bool> isFavorite;
 
-  /// The [progress] listenavle.
+  /// The [progress] listenable.
   /// 
   /// Used in the [Details] handler, it represents the current state of the view when initialized.
   late final ValueNotifier<Progress> progress;

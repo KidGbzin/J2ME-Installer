@@ -1,8 +1,18 @@
 part of '../details_handler.dart';
 
-class _Preview extends StatelessWidget {
-  const _Preview();
+class _Preview extends StatefulWidget {
 
+  const _Preview({
+    required this.previews,
+  });
+
+  final List<Uint8List> previews;
+
+  @override
+  State<_Preview> createState() => _PreviewState();
+}
+
+class _PreviewState extends State<_Preview> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,7 +35,7 @@ class _Preview extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: _screenshots(),
+          child: _previews(),
         ),
       ],
     );
@@ -43,42 +53,45 @@ class _Preview extends StatelessWidget {
     );
   }
 
-  Widget _screenshots() {
+  Widget _previews() {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget> [
           Expanded(
-            child: _image(),
+            child: _image(widget.previews[0]),
           ),
           _divider(),
           Expanded(
-            child: _image(),
+            child: _image(widget.previews[1]),
           ),
           _divider(),
           Expanded(
-            child: _image(),
+            child: _image(widget.previews[2]),
           ),
         ],
       ),
     );
   }
 
-  Widget _image() {
-    return AspectRatio(
-      aspectRatio: 0.75,
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Palette.divider.color,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(10),
-          color: Palette.foreground.color,
-          // TODO: Create the game screenshots.
-        ),
-      ),
+  Widget _image(Uint8List bytes) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(30),
+                child: _Screenshot(bytes),
+              ),
+            );
+          },
+        );
+      },
+      child: _Screenshot(bytes),
     );
   }
 }
