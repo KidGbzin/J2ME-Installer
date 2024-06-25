@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
-import 'package:j2me_installer/application/core/repositories/storage_repository.dart';
+import 'package:j2me_installer/application/core/interfaces/bucket_interface.dart';
+import 'package:j2me_installer/application/core/interfaces/database_interface.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/entities/game_entity.dart';
 import '../../core/entities/midlet_entity.dart';
@@ -15,14 +17,11 @@ import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/progress_enumeration.dart';
 import '../../core/enumerations/typographies_enumeration.dart';
 
-import '../../core/repositories/database_repository.dart';
-
 import '../../core/services/activity_service.dart';
 import '../../widgets/button_widget.dart';
 
 part '../details/components/about_section_component.dart';
 part '../details/components/bookmark_button_component.dart';
-part '../details/components/collection_section_component.dart';
 part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';
 part '../details/components/play_button_component.dart';
@@ -46,11 +45,24 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   late _Controller controller;
+  late IBucket bucket;
+  late IDatabase database;
 
   @override
   void initState() {
-    controller = _Controller()..initialize(widget.title);
-
+    bucket = Provider.of<IBucket>(
+      context,
+      listen: false,
+    );
+    database = Provider.of<IDatabase>(
+      context,
+      listen: false,
+    );
+    controller = _Controller(
+      bucket: bucket,
+      database: database,
+    )..initialize(widget.title);
+  
     super.initState();
   }
 

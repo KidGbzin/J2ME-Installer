@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:j2me_installer/application/core/enumerations/logger_enumeration.dart';
-import 'package:j2me_installer/application/core/services/android_service.dart';
+import 'package:j2me_installer/application/core/interfaces/bucket_interface.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/progress_enumeration.dart';
 
-import '../../core/repositories/database_repository.dart';
+import '../../core/interfaces/database_interface.dart';
 
 part '../launcher/components/loading_component.dart';
 
@@ -23,12 +24,20 @@ class Launcher extends StatefulWidget {
 
 class _LauncherState extends State<Launcher> {
   late final _Controller controller;
+  late IAndroid android;
+  late IDatabase database;
 
   @override
   void initState() {
+    database = Provider.of<IDatabase>(
+      context,
+      listen: false,
+    );
+    controller = _Controller(
+      database: database,
+    )..initialize(context);
+  
     super.initState();
-
-    controller = _Controller()..initialize(context);
   }
 
   @override

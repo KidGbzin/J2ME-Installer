@@ -36,7 +36,6 @@ class _ApplicationState extends State<Application> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Palette.background.color,
     ));
-
     return MaterialApp.router(
       // Freeze the text scaler regardless of the device's font size.
       builder: (BuildContext context, Widget? child) {

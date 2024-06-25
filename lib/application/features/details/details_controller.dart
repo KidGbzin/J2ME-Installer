@@ -2,7 +2,14 @@ part of '../details/details_handler.dart';
 
 /// The controller used to handle the [Details] state and data.
 class _Controller {
-  _Controller();
+
+  _Controller({
+    required this.bucket,
+    required this.database,
+  });
+
+  late final IBucket bucket;
+  late final IDatabase database;
 
   /// The game used to show its data.
   late final Game game;
@@ -25,25 +32,24 @@ class _Controller {
   Future<void> initialize(String title) async {
     isDownloading = ValueNotifier(false);
     progress = ValueNotifier(Progress.loading);
-    try {
-      game = Database.games.get(title)!;
-      isFavorite = ValueNotifier(Database.isFavorite(game));
+      game = database.games.get(title)!;
+      isFavorite = ValueNotifier(database.favorites.contains(game));
       progress.value = Progress.finished;
-    }
-    catch (_) {
-      Logger.warning.log('Details • Controller | Couldn\'t find "$title" in the local database.');
-      progress.value = Progress.error;
-    }
+    // }
+    // catch (error) {
+    //   Logger.error.log('$error');
+    //   progress.value = Progress.error;
+    // }
   }
 
   /// Open the .JAR file from cache/source then installs it.
   Future<void> openGame() async {
     isDownloading.value = true;
     try {
-      final MIDlet jar = game.midlets.firstWhere((element) => element.isComplete == true,
+      final MIDlet midlet = game.midlets.firstWhere((element) => element.isComplete == true,
         orElse: () => throw "Sorry, there's no file to install yet. Please check another game.",
       );
-      final File file = await Storage.getMIDlet(jar);
+      final File file = await bucket.midlet(midlet);
       await Activity.emulator(file);
     }
     finally {
@@ -69,6 +75,21 @@ class _Controller {
     }
   }
 
+  Future<File> getAudio() {
+    Future<File> file = bucket.audio(game.title);
+    return file;
+  }
+
+  Future<File> getCover() {
+    Future<File> file = bucket.thumbnail(game.title);
+    return file;
+  }
+
+  Future<List<Uint8List>> getPreview() {
+    Future<List<Uint8List>> file = bucket.preview(game.title);
+    return file;
+  }
+
   /// Discard the resourses used on the controller.
   void dispose() {
     isDownloading.dispose();
@@ -77,10 +98,10 @@ class _Controller {
 
   void bookmark() {
     if (isFavorite.value) {
-      Database.removeFavorite(game);
+      database.favorites.delete(game);
     }
     else {
-      Database.putFavorite(game);
+      database.favorites.put(game);
     }
     isFavorite.value = !isFavorite.value;
   }

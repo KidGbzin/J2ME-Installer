@@ -1,7 +1,13 @@
 part of '../launcher/launcher_handler.dart';
 
 class _Controller {
-  _Controller();
+
+  _Controller({
+    required this.database,
+  });
+
+  late final IDatabase database;
+
 
   final ValueNotifier<Progress> progress = ValueNotifier(Progress.loading);
 
@@ -11,9 +17,10 @@ class _Controller {
 
   Future<void> initialize(BuildContext context) async {
     try {
-      await Android.initialize();
-      await Database.initialize();
+      await database.initialize();
+      
       if (!context.mounted) return;
+
       context.pushReplacement('/home');
     }
     catch (error) {

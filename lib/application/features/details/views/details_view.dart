@@ -60,7 +60,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
   /// Try to load the audio, if for some reason it can't it just doesn't do anything.
   Future<void> playAudio() async {
     try {
-      final File file = await Storage.getAudio(widget.controller.game.title);
+      final File file = await widget.controller.getAudio();
       await player.play(DeviceFileSource(file.path));
     }
     catch (_) {}
@@ -71,7 +71,6 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        
         title: Row(
           children: <Widget> [
             Button(
@@ -79,11 +78,8 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
               onTap: context.pop,
             ),
             const Spacer(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(7.5, 0, 0, 0),
-              child: _Bookmark(
-                controller: widget.controller,
-              ),
+            _Bookmark(
+              controller: widget.controller,
             ),
           ],
         ),
@@ -94,7 +90,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
           Padding(
             padding: const EdgeInsets.all(0),
             child: _Cover(
-              getCover: Storage.getCover(widget.controller.game.title),
+              getCover: widget.controller.getCover(),
             ),
           ),
           _divider(),
@@ -114,7 +110,7 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
                 return Container(color: Colors.transparent);
               }
             },
-            future: Storage.getScreenshots(game.title),
+            future: widget.controller.getPreview(),
           ),
           _divider(),
         ],

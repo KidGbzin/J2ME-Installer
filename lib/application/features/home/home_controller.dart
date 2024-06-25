@@ -1,7 +1,14 @@
 part of '../home/home_handler.dart';
 
 class _Controller {
-  _Controller();
+
+  _Controller({
+    required this.bucket,
+    required this.database,
+  });
+
+  late final IBucket bucket;
+  late final IDatabase database;
 
   /// The [progress] listenavle.
   /// 
@@ -25,15 +32,15 @@ class _Controller {
     progress.dispose();
   }
 
-  Future<File> getGameCover(String title) async {
-    return Storage.getCover(title);
+  Future<File> getGameCover(String title) {
+    return bucket.thumbnail(title);
   }
 
   Game getGame(int index) {
-    return Database.games[index]!;
+    return database.games.fromIndex(index)!;
   }
 
   int getGamesLength() {
-    return Database.games.length;
+    return database.games.length;
   }
 }

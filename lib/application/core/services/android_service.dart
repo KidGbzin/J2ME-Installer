@@ -3,44 +3,34 @@ import 'dart:typed_data';
 
 import 'package:path_provider/path_provider.dart';
 
-/// This repository resposible to handle the Android device files.
-class Android {
-  /// The application's external directory.
-  /// 
-  /// This directory can be acessed by the user at Android folder on the file system.
-  static late final Directory? external;
+import '../interfaces/bucket_interface.dart';
 
-  /// Initialize the Android repository.
-  /// 
-  /// Gets the application's directory from the Android system.
-  static Future<void> initialize() async {
-    external = await getExternalStorageDirectory();
-  }
-
-  static File read({
+class Android implements IAndroid {
+  
+  @override
+  Future<File> read({
+    required String document,
     required String folder,
-    required String name,
-  }) {
-    folder = folder.replaceAll(":", " -");
-    name = name.replaceAll(":", " -");
-    final Directory directory = Directory('${external!.path}/$folder')..createSync(
+  }) async {
+    final Directory? root = await getExternalStorageDirectory();
+    final Directory directory = Directory('${root!.path}/$folder')..createSync(
       recursive: true,
     );
-    final File file = File('${directory.path}/$name');
+    final File file = File('${directory.path}/$document');
     return file;
   }
 
-  static Future<File> write({
+  @override
+  Future<File> write({
     required Uint8List bytes,
+    required String document,
     required String folder,
-    required String name,
-  }) {
-    folder = folder.replaceAll(":", " -");
-    name = name.replaceAll(":", " -");
-    final Directory output = Directory('${external!.path}/$folder')..createSync(
+  }) async {
+    final Directory? root = await getExternalStorageDirectory();
+    final Directory directory = Directory('${root!.path}/$folder')..createSync(
       recursive: true,
     );
-    final File file = File('${output.path}/$name');
+    final File file = File('${directory.path}/$document');
     return file.writeAsBytes(bytes);
   }
 }

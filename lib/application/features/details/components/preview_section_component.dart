@@ -82,11 +82,9 @@ class _PreviewState extends State<_Preview> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: _Screenshot(bytes),
-              ),
+            return Padding(
+              padding: const EdgeInsets.all(30),
+              child: _Screenshot(bytes),
             );
           },
         );
