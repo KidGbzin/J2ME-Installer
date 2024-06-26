@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../entities/game_entity.dart';
 
-import '../interfaces/bucket_interface.dart';
+import '../interfaces/client_interface.dart';
 import '../interfaces/database_interface.dart';
 import '../interfaces/favorites_interface.dart';
 import '../interfaces/games_interface.dart';
@@ -22,7 +22,7 @@ class Database implements IDatabase {
     required this.settings,
   });
 
-  final IGitHub gitHub;
+  final IClient gitHub;
 
   @override
   late final IFavorites favorites;
@@ -44,12 +44,14 @@ class Database implements IDatabase {
     favorites.open();
     games.open();
     settings.open();
+
+    await _update();
   }
 
   /// Fetch the API database and update the local database with it.
   Future<void> _update() async {
-    final Uint8List bytes = await gitHub.fetch('DATABASE.json');
-    final List<Object> decoded = jsonDecode(utf8.decode(bytes));
+    final Uint8List bytes = await gitHub.get('DATABASE.json');
+    final List<dynamic> decoded = jsonDecode(utf8.decode(bytes));
     final List<Game> collection = decoded.map(Game.fromJson).toList();
   
     games.clear();

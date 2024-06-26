@@ -28,7 +28,3 @@ abstract class IAndroid {
     required String folder,
   });
 }
-
-abstract class IGitHub {
-  Future<Uint8List> fetch(String source);
-}

@@ -6,6 +6,7 @@ import 'package:archive/archive.dart';
 import '../entities/midlet_entity.dart';
 
 import '../interfaces/bucket_interface.dart';
+import '../interfaces/client_interface.dart';
 
 class Bucket implements IBucket {
 
@@ -15,7 +16,7 @@ class Bucket implements IBucket {
   });
 
   final IAndroid android;
-  final IGitHub gitHub;
+  final IClient gitHub;
 
   @override
   Future<File> audio(String title) async {
@@ -27,7 +28,7 @@ class Bucket implements IBucket {
     );
     final bool exists = await file.exists();
     if (!exists) {
-      final Uint8List bytes = await gitHub.fetch('$folder/$document');
+      final Uint8List bytes = await gitHub.get('$folder/$document');
       file = await android.write(
         bytes: bytes,
         document: document,
@@ -47,7 +48,7 @@ class Bucket implements IBucket {
     );
     final bool exists = await file.exists();
     if (!exists) {
-      final Uint8List bytes = await gitHub.fetch('$folder/$document');
+      final Uint8List bytes = await gitHub.get('$folder/$document');
       file = await android.write(
         bytes: bytes,
         document: document,
@@ -66,7 +67,7 @@ class Bucket implements IBucket {
     );
     final bool exists = await file.exists();
     if (!exists) {
-      final Uint8List bytes = await gitHub.fetch('$folder/${midlet.file}');
+      final Uint8List bytes = await gitHub.get('$folder/${midlet.file}');
       file = await android.write(
         bytes: bytes,
         document: midlet.file,
@@ -86,7 +87,7 @@ class Bucket implements IBucket {
     );
     final bool exists = await file.exists();
     if (!exists) {
-      final Uint8List bytes = await gitHub.fetch('$folder/$document');
+      final Uint8List bytes = await gitHub.get('$folder/$document');
       file = await android.write(
         bytes: bytes,
         document: document,
@@ -106,7 +107,7 @@ class Bucket implements IBucket {
     );
     final bool exists = await file.exists();
     if (!exists) {
-      final Uint8List bytes = await gitHub.fetch('$folder/$document');
+      final Uint8List bytes = await gitHub.get('$folder/$document');
       file = await android.write(
         bytes: bytes,
         document: document,

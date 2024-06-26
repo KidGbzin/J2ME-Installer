@@ -5,8 +5,10 @@ import 'package:path_provider/path_provider.dart';
 
 import '../interfaces/bucket_interface.dart';
 
+/// A file manager service to handle the device cache files.
 class Android implements IAndroid {
   
+  /// Read a file from the application's folder.
   @override
   Future<File> read({
     required String document,
@@ -20,6 +22,7 @@ class Android implements IAndroid {
     return file;
   }
 
+  /// Write a file on the application's folder.
   @override
   Future<File> write({
     required Uint8List bytes,

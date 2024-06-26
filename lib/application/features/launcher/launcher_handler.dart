@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 import 'package:j2me_installer/application/core/enumerations/logger_enumeration.dart';
+import 'package:j2me_installer/application/core/enumerations/typographies_enumeration.dart';
+import 'package:j2me_installer/application/core/exceptions/github_exceptions.dart';
 import 'package:j2me_installer/application/core/interfaces/bucket_interface.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +16,7 @@ import '../../core/interfaces/database_interface.dart';
 
 part '../launcher/components/loading_component.dart';
 
+part '../launcher/views/error_view.dart';
 part '../launcher/views/launcher_view.dart';
 
 part '../launcher/launcher_controller.dart';
@@ -55,7 +61,7 @@ class _LauncherState extends State<Launcher> {
           return const _Launcher();
         }
         else {
-          return const Text('Launcger error');
+          return _Error(controller);
         }
       },
       valueListenable: controller.progress,

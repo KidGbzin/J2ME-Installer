@@ -1,4 +1,5 @@
+import 'dart:typed_data';
+
 abstract class IClient {
-  
-  Future<String> fetch(String directory, [bool asBytes = false]);
+  Future<Uint8List> get(String source);
 }
