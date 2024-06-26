@@ -10,4 +10,10 @@ abstract class IFavorites {
   void put(Game game);
 
   void delete(Game game);
+
+  void open();
+
+  void close();
+
+  void clear();
 }

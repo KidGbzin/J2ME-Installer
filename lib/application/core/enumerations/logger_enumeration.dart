@@ -29,14 +29,14 @@ enum Logger {
 
   /// The color code, each code represents a different color.
   ///
-  /// - Code 30: Black
-  /// - Code 31: Red
-  /// - Code 32: Green
-  /// - Code 33: Yellow
-  /// - Code 34: Blue
-  /// - Code 35: Purple
-  /// - Code 36: Cyan
-  /// - Code 37: White
+  /// - Code 30: Black;
+  /// - Code 31: Red;
+  /// - Code 32: Green;
+  /// - Code 33: Yellow;
+  /// - Code 34: Blue;
+  /// - Code 35: Purple;
+  /// - Code 36: Cyan;
+  /// - Code 37: White.
   ///
   /// Any other code will not affect the console text color, which defaults to blue.
   final String code;

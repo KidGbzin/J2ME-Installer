@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 
 import '../entities/midlet_entity.dart';
+
 import '../interfaces/bucket_interface.dart';
 
 class Bucket implements IBucket {
@@ -20,26 +21,6 @@ class Bucket implements IBucket {
   Future<File> audio(String title) async {
     const String folder = 'Audios';
     final String document = '$title.rtx';
-    File file = await android.read(
-      folder: folder,
-      document: document,
-    );
-    final bool exists = await file.exists();
-    if (!exists) {
-      final Uint8List bytes = await gitHub.fetch('$folder/$document');
-      file = await android.write(
-        bytes: bytes,
-        document: document,
-        folder: folder,
-      );
-    }
-    return file;
-  }
-
-  @override
-  Future<File> thumbnail(String title) async {
-    const String folder = 'Thumbnails';
-    final String document = '$title.png';
     File file = await android.read(
       folder: folder,
       document: document,
@@ -115,7 +96,27 @@ class Bucket implements IBucket {
     return _extract(file);
   }
 
-   static List<Uint8List> _extract(File package) {
+  @override
+  Future<File> thumbnail(String title) async {
+    const String folder = 'Thumbnails';
+    final String document = '$title.png';
+    File file = await android.read(
+      folder: folder,
+      document: document,
+    );
+    final bool exists = await file.exists();
+    if (!exists) {
+      final Uint8List bytes = await gitHub.fetch('$folder/$document');
+      file = await android.write(
+        bytes: bytes,
+        document: document,
+        folder: folder,
+      );
+    }
+    return file;
+  }
+
+  static List<Uint8List> _extract(File package) {
     final List<Uint8List> temporary = <Uint8List> [];
     final Uint8List bytes = package.readAsBytesSync();
     final Archive archive = ZipDecoder().decodeBytes(bytes);

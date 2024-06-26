@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'midlet_entity.dart';
+import '../entities/midlet_entity.dart';
 
 /// The entity resposible for the game information.
 class Game {
@@ -57,12 +55,5 @@ class Game {
       'title': title,
       'vendor': vendor,
     };
-  }
-
-  /// Get all [Game] entries from a given JSON body.
-  static List<Game> all(String body) {
-    final List decoded = jsonDecode(body);
-    final List<Game> collection = decoded.map(Game.fromJson).toList();
-    return collection;
   }
 }

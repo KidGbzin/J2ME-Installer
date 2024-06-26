@@ -6,4 +6,12 @@ abstract class IGames {
   Game? fromIndex(int index);
 
   Game? get(String title);
+
+  void open();
+
+  void close();
+
+  void clear();
+
+  void put(Game game);
 }
