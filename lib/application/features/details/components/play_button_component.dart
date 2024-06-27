@@ -62,7 +62,10 @@ class _PlayButton extends StatelessWidget {
       // TODO: Handle client exception error.
     }
     catch (error) {
-      Logger.error.log('$error');
+      Logger.error.print(
+        label: 'Details | Play Button',
+        message: '$error',
+      );
       // TODO: Handle default error.
     }
   }

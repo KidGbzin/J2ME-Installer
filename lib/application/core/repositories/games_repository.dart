@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:j2me_installer/application/core/exceptions/database_exceptions.dart';
 
 import '../entities/game_entity.dart';
 
@@ -8,13 +9,29 @@ class Games implements IGames {
   late final Box<Game> _box;
 
   @override
-  Game? fromIndex(int index) => _box[index];
+  Game fromIndex(int index) {
+    final Game? game = _box[index];
+    if (game == null) {
+      throw GameException(
+        message: 'The index "$index" is out of range ${_box.length}!',
+      );
+    }
+    return game;
+  }
 
   @override
   int get length => _box.length;
 
   @override
-  Game? get(String title) => _box.get(title);
+  Game get(String title) {
+    final Game? game = _box.get(title);
+    if (game == null) {
+      throw GameException(
+        message: 'The game "$title" does not exist on the box!',
+      );
+    }
+    return game;
+  }
   
   @override
   void close() => _box.close();

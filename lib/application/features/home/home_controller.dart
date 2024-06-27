@@ -23,7 +23,10 @@ class _Controller {
       progress.value = Progress.finished;
     }
     catch (error) {
-      Logger.error.log('Home • Controller | $error');
+      Logger.error.print(
+        label: 'Home | Controller',
+        message: '$error',
+      );
       progress.value = Progress.error;
     }
   }
@@ -37,7 +40,7 @@ class _Controller {
   }
 
   Game getGame(int index) {
-    return database.games.fromIndex(index)!;
+    return database.games.fromIndex(index);
   }
 
   int getGamesLength() {

@@ -42,12 +42,19 @@ class GitHub implements IClient {
       Uri.parse('https://raw.githubusercontent.com/KidGbzin/J2ME/bucket/files/$source'),
       headers: _headers,
     );
+    
     if (response.statusCode == HttpStatus.ok) {
-      Logger.success.log('GitHub GET • ${response.statusCode} | The file "$source" was successfully fetched.');
+      Logger.success.print(
+        label: 'GitHub | GET • ${response.statusCode}',
+        message: 'The file "$source" was successfully fetched.',
+      );
       return response.bodyBytes;
     }
     else {
-      Logger.warning.log('GitHub GET • ${response.statusCode} | The file "$source" couldn\'t be fetched.');
+      Logger.warning.print(
+        label: 'GitHub | GET • ${response.statusCode}',
+        message: 'The file "$source" couldn\'t be fetched.',
+      );
       throw ResponseException(
         message: 'The file "$source" returned an error of status code ${response.statusCode}!',
         statusCode: response.statusCode,

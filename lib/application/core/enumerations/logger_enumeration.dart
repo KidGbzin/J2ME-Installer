@@ -1,27 +1,27 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-/// An enumeration to [print] colored logs on the console.
+/// An enumeration to [log] colored logs on the console.
 ///
-/// Instead of using a single [print] function, use [Logger] for better code analysis and readability.
+/// Instead of using a single [log] function, use [Logger] for better code analysis and readability.
 enum Logger {
   /// An [error] log.
   ///
-  /// Used to [print] unhandled [Exception]s that break the application.
+  /// Used to [log] unhandled [Exception]s that break the application.
   error("31", "⛔"),
 
   /// An [information] log.
   ///
-  /// Used to [print] general information that doesn't affect application functionality.
+  /// Used to [log] general information that doesn't affect application functionality.
   information("00", "📣"),
 
   /// A [success] log.
   ///
-  /// Used to [print] successful requests.
+  /// Used to [log] successful requests.
   success("32", "✅"),
 
   /// A [warning] log.
   ///
-  /// Used to [print] alerts that do not break the application, such as "not found" actions.
+  /// Used to [log] alerts that do not break the application, such as "not found" actions.
   warning("33", "📢");
 
   /// Creates a [Logger] with the given [code] and [emoji].
@@ -47,5 +47,15 @@ enum Logger {
   /// Prints a log message to the console with colored text.
   ///
   /// The log message is prefixed with an [emoji] and its color is based on the [Logger] enumeration value.
-  void log(String text) => debugPrint("\x1b[${code}m$emoji $text\x1B[0m");
+  void print({
+    required String message,
+    required String label,
+    StackTrace? stackTrace,
+  }) {
+    log(
+      "\x1b[${code}m$emoji $message\x1B[0m",
+      name: label,
+      stackTrace: stackTrace,
+    );
+  }
 }

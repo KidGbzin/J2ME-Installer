@@ -87,30 +87,17 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
       body: ListView(
         padding: EdgeInsets.zero,
         children: <Widget> [
-          Padding(
-            padding: const EdgeInsets.all(0),
-            child: _Cover(
-              getCover: widget.controller.getCover(),
-            ),
+          _Cover(
+            getCover: widget.controller.getCover(),
           ),
           _divider(),
           _About(game.description ?? ''),
           _divider(),
-          FutureBuilder(
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return _Preview(
-                  previews: snapshot.data!,
-                );
-              }
-              else if (snapshot.hasError) {
-                return Container(color: Colors.red);
-              }
-              else {
-                return Container(color: Colors.transparent);
-              }
-            },
-            future: widget.controller.getPreview(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 25, 15, 25),
+            child: _Previews(
+              controller: widget.controller,
+            ),
           ),
           _divider(),
         ],

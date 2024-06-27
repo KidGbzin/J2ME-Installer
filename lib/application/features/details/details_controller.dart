@@ -32,14 +32,18 @@ class _Controller {
   Future<void> initialize(String title) async {
     isDownloading = ValueNotifier(false);
     progress = ValueNotifier(Progress.loading);
-      game = database.games.get(title)!;
+    try {
+      game = database.games.get(title);
       isFavorite = ValueNotifier(database.favorites.contains(game));
       progress.value = Progress.finished;
-    // }
-    // catch (error) {
-    //   Logger.error.log('$error');
-    //   progress.value = Progress.error;
-    // }
+    }
+    catch (error) {
+      Logger.error.print(
+        label: 'Details | Controller',
+        message: '$error',
+      );
+      progress.value = Progress.error;
+    }
   }
 
   /// Open the .JAR file from cache/source then installs it.
@@ -62,7 +66,10 @@ class _Controller {
       await Activity.gitHub();
     }
     catch (error) {
-      Logger.error.log('$error');
+      Logger.error.print(
+        label: 'Details | Controller',
+        message: '$error',
+      );
     }
   }
 
@@ -71,7 +78,10 @@ class _Controller {
       await Activity.playStore();
     }
     catch (error) {
-      Logger.error.log('$error');
+      Logger.error.print(
+        label: 'Details | Controller',
+        message: '$error',
+      );
     }
   }
 
@@ -85,7 +95,7 @@ class _Controller {
     return file;
   }
 
-  Future<List<Uint8List>> getPreview() {
+  Future<List<Uint8List>> getPreviews() {
     Future<List<Uint8List>> file = bucket.preview(game.title);
     return file;
   }

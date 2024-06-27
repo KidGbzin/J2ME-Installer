@@ -3,20 +3,23 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
-import 'package:j2me_installer/application/core/enumerations/logger_enumeration.dart';
 import 'package:j2me_installer/application/core/enumerations/typographies_enumeration.dart';
-import 'package:j2me_installer/application/core/exceptions/github_exceptions.dart';
-import 'package:j2me_installer/application/core/interfaces/bucket_interface.dart';
+import 'package:j2me_installer/application/widgets/button_widget.dart';
+import 'package:j2me_installer/application/widgets/error_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/enumerations/logger_enumeration.dart';
 import '../../core/enumerations/palette_enumeration.dart';
 import '../../core/enumerations/progress_enumeration.dart';
 
+import '../../core/exceptions/github_exceptions.dart';
+
+import '../../core/interfaces/bucket_interface.dart';
 import '../../core/interfaces/database_interface.dart';
 
 part '../launcher/components/loading_component.dart';
 
-part '../launcher/views/error_view.dart';
+part '../launcher/views/landing_view.dart';
 part '../launcher/views/launcher_view.dart';
 
 part '../launcher/launcher_controller.dart';
@@ -60,8 +63,11 @@ class _LauncherState extends State<Launcher> {
         if (progress == Progress.loading) {
           return const _Launcher();
         }
+        else if (progress == Progress.finished) {
+          return const _Landing();
+        }
         else {
-          return _Error(controller);
+          return ErrorView(controller.message);
         }
       },
       valueListenable: controller.progress,

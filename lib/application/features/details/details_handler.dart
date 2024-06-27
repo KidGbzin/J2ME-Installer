@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
+import 'package:j2me_installer/application/core/exceptions/github_exceptions.dart';
 import 'package:j2me_installer/application/core/interfaces/bucket_interface.dart';
 import 'package:j2me_installer/application/core/interfaces/database_interface.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,6 @@ part '../details/components/bookmark_button_component.dart';
 part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';
 part '../details/components/play_button_component.dart';
-part '../details/components/screenshot_component.dart';
 part 'components/preview_section_component.dart';
 
 part '../details/views/details_view.dart';

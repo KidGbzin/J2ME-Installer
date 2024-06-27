@@ -1,18 +1,19 @@
 part of '../details_handler.dart';
 
-class _Preview extends StatefulWidget {
+class _Previews extends StatefulWidget {
 
-  const _Preview({
-    required this.previews,
+  const _Previews({
+    required this.controller,
   });
 
-  final List<Uint8List> previews;
+  final _Controller controller;
 
   @override
-  State<_Preview> createState() => _PreviewState();
+  State<_Previews> createState() => _PreviewsState();
 }
 
-class _PreviewState extends State<_Preview> {
+class _PreviewsState extends State<_Previews> {
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,29 +21,61 @@ class _PreviewState extends State<_Preview> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget> [
         Padding(
-          padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
           child: Text(
             "SCREENSHOTS",
             style: Typographies.category(Palette.elements).style,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-          child: Text(
-            "The game's characteristics and screenshots may vary according to the model of your phone.",
-            style: Typographies.body(Palette.grey).style,
-          ),
+        Text(
+          "The game's characteristics and screenshots may vary according to the model of your phone.",
+          style: Typographies.body(Palette.grey).style,
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: _previews(),
+        SizedBox(
+          height: _height(context),
+          width: double.infinity,
+          child: FutureBuilder(
+            builder: (BuildContext context, AsyncSnapshot<List<Uint8List>> snapshot) {
+              if (snapshot.hasData) {
+                final List<Uint8List> previews = snapshot.data!;
+                return _previews(previews);
+              }
+              else if (snapshot.hasError) {
+                if (snapshot.error is ResponseException) {
+                  final ResponseException exception = snapshot.error as ResponseException;
+                  Logger.error.print(
+                    label: 'Details | Previews',
+                    message: exception.message,
+                  );
+                }
+                return Icon(
+                  Icons.warning_rounded,
+                  color: Palette.elements.color,
+                );
+              }
+              else {
+                return Icon(
+                  Icons.downloading_rounded,
+                  color: Palette.elements.color,
+                );
+              }
+            },
+            future: widget.controller.getPreviews(),
+          ),
         ),
       ],
     );
-    
   }
 
-  Widget _divider() {
+  /// Calculates the height for the previews section.
+  ///
+  /// This formula ensures that each preview maintains the correct aspect ratio.
+  double _height(BuildContext context) {
+    return (MediaQuery.of(context).size.width - 30) / 3 / 0.75;
+  }
+
+  /// A bullet divider for the previews.
+  Widget _bullet() {
     return SizedBox.square(
       dimension: 15,
       child: Icon(
@@ -53,23 +86,24 @@ class _PreviewState extends State<_Preview> {
     );
   }
 
-  Widget _previews() {
+
+  Widget _previews(List<Uint8List> previews) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: <Widget> [
           Expanded(
-            child: _image(widget.previews[0]),
+            child: _image(previews[0]),
           ),
-          _divider(),
+          _bullet(),
           Expanded(
-            child: _image(widget.previews[1]),
+            child: _image(previews[1]),
           ),
-          _divider(),
+          _bullet(),
           Expanded(
-            child: _image(widget.previews[2]),
+            child: _image(previews[2]),
           ),
         ],
       ),
@@ -77,25 +111,22 @@ class _PreviewState extends State<_Preview> {
   }
 
   Widget _image(Uint8List bytes) {
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Align(
-              alignment: Alignment.center,
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: kElevationToShadow[3],
-                ),
-                margin: const EdgeInsets.all(30),
-                child: _Screenshot(bytes),
-              ),
-            );
-          },
-        );
-      },
-      child: _Screenshot(bytes),
+    return AspectRatio(
+      aspectRatio: 0.75,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Palette.divider.color,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+            image: MemoryImage(bytes),
+            filterQuality: FilterQuality.none,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
     );
   }
 }

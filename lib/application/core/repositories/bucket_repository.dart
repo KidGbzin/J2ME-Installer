@@ -117,7 +117,7 @@ class Bucket implements IBucket {
     return file;
   }
 
-  static List<Uint8List> _extract(File package) {
+  List<Uint8List> _extract(File package) {
     final List<Uint8List> temporary = <Uint8List> [];
     final Uint8List bytes = package.readAsBytesSync();
     final Archive archive = ZipDecoder().decodeBytes(bytes);
