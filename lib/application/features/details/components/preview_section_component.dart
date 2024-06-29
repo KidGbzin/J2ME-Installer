@@ -80,8 +80,8 @@ class _PreviewsState extends State<_Previews> {
       dimension: 15,
       child: Icon(
         Icons.circle,
-        color: Palette.foreground.color,
-        size: 2.5,
+        color: Palette.transparent.color,
+        size: 5,
       ),
     );
   }
@@ -114,12 +114,14 @@ class _PreviewsState extends State<_Previews> {
     return AspectRatio(
       aspectRatio: 0.75,
       child: Container(
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           border: Border.all(
             color: Palette.divider.color,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(10),
+          boxShadow: kElevationToShadow[0],
           image: DecorationImage(
             image: MemoryImage(bytes),
             filterQuality: FilterQuality.none,

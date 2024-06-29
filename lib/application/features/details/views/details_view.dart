@@ -72,12 +72,13 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget> [
             Button(
               icon: Icons.arrow_back_rounded,
               onTap: context.pop,
             ),
-            const Spacer(),
             _Bookmark(
               controller: widget.controller,
             ),
@@ -91,7 +92,10 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
             getCover: widget.controller.getCover(),
           ),
           _divider(),
-          _About(game.description ?? ''),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 25, 15, 25),
+            child: _About(game.description ?? ''),
+          ),
           _divider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 25, 15, 25),

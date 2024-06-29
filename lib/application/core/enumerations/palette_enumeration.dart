@@ -11,7 +11,7 @@ enum Palette {
   foreground(Color(0xff26262e)),
   grey(Color(0xFFBDBDBD)),
   primary(Color(0xff50599e)),
-  primary2(Color.fromARGB(255, 140, 153, 255)),
+  primary2(Color.fromRGBO(140, 153, 255, 1)),
   transparent(Color(0x00000000));
 
   final Color color;

@@ -12,18 +12,15 @@ class _About extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget> [
         Padding(
-          padding: const EdgeInsets.fromLTRB(15, 25, 15, 15),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
           child: Text(
             "ABOUT",
             style: Typographies.category(Palette.elements).style,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 0, 15, 25),
-          child: Text(
-            description,
-            style: Typographies.body(Palette.grey).style,
-          ),
+        Text(
+          description,
+          style: Typographies.body(Palette.grey).style,
         ),
       ],
     );

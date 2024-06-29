@@ -40,14 +40,14 @@ class _Install extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget> [
             Expanded(
-              child: _playButton(),
+              child: _midletsButton(),
             ),
             VerticalDivider(
               color: Palette.transparent.color,
-              width: 15,
+              width: 25,
             ),
             Expanded(
-              child: _versionButton(),
+              child: _playButton(),
             ),
           ],
         ),
@@ -91,23 +91,38 @@ class _Install extends StatelessWidget {
     );
   }
 
-  Widget _versionButton() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget> [
-        Text(
-          'Change Version',
-          style: Typographies.body(Palette.grey).style,
+  Widget _midletsButton() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Palette.divider.color,
+          width: 1,
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(7.5, 0, 0, 0),
-          child: Icon(
+        borderRadius: BorderRadius.circular(100),
+      ),
+      padding: const EdgeInsets.fromLTRB(7.5, 0, 15, 0),
+      height: 45,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget> [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 1, 0, 0),
+              child: Text(
+                'MIDlets',
+                style: Typographies.button(Palette.grey).style,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          Icon(
             Icons.code_rounded,
             color: Palette.grey.color,
+            size: 25,
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

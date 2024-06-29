@@ -26,11 +26,15 @@ class Button extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.5),
+          border: Border.all(
+            color: Palette.divider.color,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(100),
           color: Palette.transparent.color,
         ),
-        height: 37.5,
-        width: 37.5,
+        height: 40,
+        width: 40,
         child: Icon(
           icon,
           color: Palette.elements.color,

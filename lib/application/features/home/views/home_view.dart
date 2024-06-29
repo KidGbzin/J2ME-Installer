@@ -31,7 +31,7 @@ class __HomeState extends State<_Home> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget> [
             Text(
-              "MIDlet Store",
+              'MIDLET STORE',
               style: Typographies.category(Palette.elements).style,
             ),
           ],

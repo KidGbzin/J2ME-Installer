@@ -80,7 +80,7 @@ class _ApplicationState extends State<Application> {
   final ThemeData _theme = ThemeData(
     appBarTheme: AppBarTheme(
       backgroundColor: Palette.background.color,
-      toolbarHeight: 37.5 + 30,
+      toolbarHeight: 70,
       titleSpacing: 15,
       shape: Border(
         bottom: BorderSide(
@@ -88,6 +88,12 @@ class _ApplicationState extends State<Application> {
           width: 1,
         ),
       ),
+      surfaceTintColor: Palette.background.color,
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: Palette.background.color,
+      elevation: 0,
+      shape: const BeveledRectangleBorder(),
       surfaceTintColor: Palette.background.color,
     ),
     scaffoldBackgroundColor: Palette.background.color,
