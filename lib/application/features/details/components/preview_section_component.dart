@@ -23,7 +23,7 @@ class _PreviewsState extends State<_Previews> {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
           child: Text(
-            "SCREENSHOTS",
+            "PREVIEWS",
             style: Typographies.category(Palette.elements).style,
           ),
         ),
@@ -49,8 +49,8 @@ class _PreviewsState extends State<_Previews> {
                   );
                 }
                 return Icon(
-                  Icons.warning_rounded,
-                  color: Palette.elements.color,
+                  Icons.broken_image_rounded,
+                  color: Palette.grey.color,
                 );
               }
               else {

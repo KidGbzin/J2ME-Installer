@@ -100,6 +100,12 @@ class __DetailsState extends State<_Details> with WidgetsBindingObserver {
             ),
           ),
           _divider(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 25, 15, 25),
+            child: _Install(
+              controller: widget.controller,
+            ),
+          ),
         ],
       ),
     );

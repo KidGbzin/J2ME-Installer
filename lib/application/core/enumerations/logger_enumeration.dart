@@ -12,7 +12,7 @@ enum Logger {
   /// An [information] log.
   ///
   /// Used to [log] general information that doesn't affect application functionality.
-  information("00", "📣"),
+  information("34", "📣"),
 
   /// A [success] log.
   ///
@@ -38,7 +38,7 @@ enum Logger {
   /// - Code 36: Cyan;
   /// - Code 37: White.
   ///
-  /// Any other code will not affect the console text color, which defaults to blue.
+  /// Any other code value will not affect the console text color.
   final String code;
 
   /// The leading emoji displayed in the console.
@@ -53,7 +53,7 @@ enum Logger {
     StackTrace? stackTrace,
   }) {
     log(
-      "\x1b[${code}m$emoji $message\x1B[0m",
+      ": \x1b[${code}m$emoji $message\x1B[0m",
       name: label,
       stackTrace: stackTrace,
     );

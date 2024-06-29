@@ -32,7 +32,7 @@ class __HomeState extends State<_Home> {
           children: <Widget> [
             Text(
               "MIDlet Store",
-              style: Typographies.header(Palette.elements).style,
+              style: Typographies.category(Palette.elements).style,
             ),
           ],
         ),

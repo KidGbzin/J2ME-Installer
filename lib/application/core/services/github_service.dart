@@ -42,7 +42,6 @@ class GitHub implements IClient {
       Uri.parse('https://raw.githubusercontent.com/KidGbzin/J2ME/bucket/files/$source'),
       headers: _headers,
     );
-    
     if (response.statusCode == HttpStatus.ok) {
       Logger.success.print(
         label: 'GitHub | GET • ${response.statusCode}',

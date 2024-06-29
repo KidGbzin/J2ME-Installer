@@ -6,6 +6,7 @@ import '../core/enumerations/palette_enumeration.dart';
 /// 
 /// This button is used everywhere in the application.
 class Button extends StatelessWidget {
+
   const Button({
     required this.icon,
     required this.onTap,
@@ -16,7 +17,7 @@ class Button extends StatelessWidget {
   final IconData icon;
 
   /// An function to be executed when [Button] is tapped.
-  final Function() onTap;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -38,12 +38,11 @@ class Typographies {
     ));
   }
 
-  factory Typographies.header(Palette palette) {
+  factory Typographies.button(Palette palette) {
     return Typographies._internal(GoogleFonts.rajdhani(
       color: palette.color,
-      fontSize: 17.5,
-      fontWeight: FontWeight.w800
-      ,
+      fontSize: 15.5,
+      fontWeight: FontWeight.w500,
       height: 1,
       letterSpacing: 1.25,
     ));

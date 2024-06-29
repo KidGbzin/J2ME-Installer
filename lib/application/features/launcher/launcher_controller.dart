@@ -10,6 +10,12 @@ class _Controller {
 
   late final String message;
 
+  final PageController pageController = PageController(
+    initialPage: 0,
+  );
+
+  final ValueNotifier<int> pageIndex = ValueNotifier(0);
+
   final ValueNotifier<Progress> progress = ValueNotifier(Progress.loading);
 
   void dispose() {
@@ -47,5 +53,15 @@ class _Controller {
       message = 'Internal error!';
       progress.value = Progress.error;
     }
+  }
+
+  void goTo() {
+    pageController.animateToPage(
+      1,
+      duration: const Duration(
+        milliseconds: 400,
+      ),
+      curve: Curves.decelerate,
+    );
   }
 }

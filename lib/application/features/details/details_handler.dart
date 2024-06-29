@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:j2me_installer/application/core/exceptions/github_exceptions.dart';
@@ -25,6 +26,7 @@ part '../details/components/about_section_component.dart';
 part '../details/components/bookmark_button_component.dart';
 part '../details/components/cover_component.dart';
 part '../details/components/dialog_component.dart';
+part 'components/inatall_section_component.dart';
 part '../details/components/play_button_component.dart';
 part 'components/preview_section_component.dart';
 
